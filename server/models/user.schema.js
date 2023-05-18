@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Product = require("./product.schema");
 
 const UserSchema = new mongoose.Schema(
     {
@@ -22,7 +23,13 @@ const UserSchema = new mongoose.Schema(
         address: {
             type: String,
             required: true
-        }
+        },
+        followingProducts: [
+            { 
+                type: mongoose.SchemaTypes.ObjectId,
+                ref: Product
+            }
+        ]
     }
 )
 

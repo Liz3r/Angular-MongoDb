@@ -9,12 +9,13 @@ const ProductSchema = new mongoose.Schema(
         },
         details: {
             type: String,
-            required: true,
-        },
-        owner: {
-            type: mongoose.SchemaTypes.ObjectId,
-            ref: User
+            required: true
         }
+        // },
+        // owner: {
+        //     type: mongoose.SchemaTypes.ObjectId,
+        //     ref: User
+        // }
     }
 )
 

@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const Product = require("./models/product.schema");
 const User = require('./models/user.schema');
+const routes = require('./routes/routes')
 
 const uri = "mongodb+srv://admin:1234@cluster0.uhqga0j.mongodb.net/?retryWrites=true&w=majority";
 port = 5123;
@@ -11,16 +12,7 @@ const url = `http://localhost:${port}/`;
 app.use(express.json());
 
 
-
-
-app.post("/user", async (req,res)=>{
-    try {
-        const user = await User.create(req.body);
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
-})
+app.use('/',routes);
 
 
 mongoose.connect(uri)

@@ -3,15 +3,18 @@ const app = express();
 const mongoose = require("mongoose");
 const Product = require("./models/product.schema");
 const User = require('./models/user.schema');
-const routes = require('./routes/routes')
+const routes = require('./routes/routes');
+const cors = require('cors')
 
 const uri = "mongodb+srv://admin:1234@cluster0.uhqga0j.mongodb.net/?retryWrites=true&w=majority";
 port = 5123;
 const url = `http://localhost:${port}/`;
 
 app.use(express.json());
-
-
+app.use(cors({
+    credentials: true,
+    origin: ['http://localhost:4200']
+}));
 app.use('/',routes);
 
 

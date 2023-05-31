@@ -5,7 +5,7 @@ const User = require('../models/user.schema');
 const jwt = require('jsonwebtoken');
 
 
-router.post("/user", async (req,res)=>{
+router.post("/register", async (req,res)=>{
     try {
         const salt = await bcrypt.genSalt(10);
         
@@ -52,5 +52,34 @@ router.post("/login", async (req,res)=>{
         message: 'success'
     });
 })
+
+router.get("/user", async (req,res)=>{
+    try{
+        const cookie = req.cookies["jwt"];
+        const claims = jwt.verify(cookie,"secret")
+
+        if(!claims){
+            return res.status(401).send({
+                message: 'unauthenticated'
+            })
+        }
+
+        const user = await User.findOne({_id: claims._id});
+
+        res.send(cookie);
+    }catch(err){
+        return res.status(401).send({
+            message: 'unauthenticated'
+        })
+    }
+})
+
+router.post("/logout",(req,res)=>{
+    res.cookie('jwt','',{ maxAge: 0});
+    res.send({
+        message: 'success'
+    })
+})
+
 
 module.exports = router;

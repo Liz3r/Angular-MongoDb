@@ -4,18 +4,27 @@ const Product = require("../models/product.schema");
 const User = require('../models/user.schema');
 const jwt = require('jsonwebtoken');
 
-
+//http://localhost:5123/register
 router.post("/register", async (req,res)=>{
     try {
+
+        if(await User.findOne({email: req.body.email})){
+            return res.status(200).send({
+                taken: 1,
+                message: "user with that email already exists"
+            });
+        }
+
+
         const salt = await bcrypt.genSalt(10);
         
-        const hPassword = await bcrypt.hash(req.body.hashPassword,salt);
+        const hPassword = await bcrypt.hash(req.body.password,salt);
 
         const user = new User({
             name: req.body.name,
             surname: req.body.surname,
             email: req.body.email,
-            hashPassword: hPassword,
+            password: hPassword,
             address: req.body.address
         });
 
@@ -28,15 +37,16 @@ router.post("/register", async (req,res)=>{
 })
 
 router.post("/login", async (req,res)=>{
+
     const user = await User.findOne({email: req.body.email});
 
-    if(!User){
+    if(!user){
         return res.status(404).send({
             message: 'user not found'
         })
     }
 
-    if(!await bcrypt.compare(req.body.hashPassword, user.hashPassword)){
+    if(!await bcrypt.compare(req.body.password, user.password)){
         return res.status(404).send({
             message: 'invalid credentials'
         })
@@ -80,6 +90,7 @@ router.post("/logout",(req,res)=>{
         message: 'success'
     })
 })
+
 
 
 module.exports = router;

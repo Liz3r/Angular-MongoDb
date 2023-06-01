@@ -1,5 +1,5 @@
-div.register-form{
-    width: 400px;
+form.register-form{
+    width: 600px;
 
     padding: 40px;
 
@@ -32,4 +32,9 @@ button{
 .btn-primary:active{
     background-color: #F38701;
     border-color: #F38701;
+}
+
+div.msg{
+    color: red;
+    height: 30px;
 }

@@ -1,15 +1,16 @@
 <div class="login-container d-flex justify-content-center align-items-center">
-    <div class="login-form">
+    <div [formGroup]="form" class="login-form">
         <h1>Login</h1>
         <div class="form-group">
             <label for="email">Username</label>
-            <input type="text" name="email" class="form-control">
+            <input formControlName="email" type="text" name="email" class="form-control">
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="text" name="password" class="form-control">
+            <input formControlName="password" type="text" name="password" class="form-control">
         </div>
-        <button class="btn btn-primary">Login</button>
+        <div class="msg d-flex justify-content-center align-items-center">{{errorMsg}}</div>
+        <button (click)="login()" class="btn btn-primary">Login</button>
         <a href="http://localhost:4200/register" class="d-flex justify-content-center align-items-center">click here to crate account</a>
     </div>
 </div>

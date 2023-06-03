@@ -43,10 +43,12 @@ export class LoginComponent implements OnInit{
       this.errorMsg = 'invalid email';
       return;
     }
-    this.http.post('http://localhost:5123/login',value)
-    .subscribe(res=>{
-      console.log(res);
-    })
+    this.http.post('http://localhost:5123/login',value, { withCredentials: true })
+    .subscribe((res)=>{
+      this.router.navigate(['/home'])
+    });
+
+
   }
 
 }

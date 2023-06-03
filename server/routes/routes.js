@@ -3,8 +3,11 @@ const bcrypt = require('bcrypt')
 const Product = require("../models/product.schema");
 const User = require('../models/user.schema');
 const jwt = require('jsonwebtoken');
+const cookieParser = require("cookie-parser");
 
-//http://localhost:5123/register
+//http://localhost:5123/user
+//router.use(cookieParser());
+
 router.post("/register", async (req,res)=>{
     try {
 
@@ -56,15 +59,18 @@ router.post("/login", async (req,res)=>{
 
     res.cookie("jwt",token,{
         httpOnly: true,
-        maxAge: 60*60*1000
+        maxAge: 60*60*1000000,
+        sameSite: "None",
+        domain: "localhost"
     })
     res.send({
         message: 'success'
     });
+
 })
 
 router.get("/user", async (req,res)=>{
-    try{
+    //try{
         const cookie = req.cookies["jwt"];
         const claims = jwt.verify(cookie,"secret")
 
@@ -75,13 +81,14 @@ router.get("/user", async (req,res)=>{
         }
 
         const user = await User.findOne({_id: claims._id});
+        const { password, ...data} = user.toJSON();
 
-        res.send(cookie);
-    }catch(err){
-        return res.status(401).send({
-            message: 'unauthenticated'
-        })
-    }
+        res.send(data);
+    //}catch(err){
+    //    return res.status(401).send({
+    //        message: 'unauthenticated'
+    //    })
+    //}
 })
 
 router.post("/logout",(req,res)=>{

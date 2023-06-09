@@ -18,7 +18,6 @@ router.post("/register", async (req,res)=>{
             });
         }
 
-
         const salt = await bcrypt.genSalt(10);
         
         const hPassword = await bcrypt.hash(req.body.password,salt);
@@ -59,9 +58,7 @@ router.post("/login", async (req,res)=>{
 
     res.cookie("jwt",token,{
         httpOnly: true,
-        maxAge: 60*60*1000000,
-        sameSite: "None",
-        domain: "localhost"
+        maxAge: 60*60*1000
     })
     res.send({
         message: 'success'
@@ -69,8 +66,9 @@ router.post("/login", async (req,res)=>{
 
 })
 
+
 router.get("/user", async (req,res)=>{
-    //try{
+    try{
         const cookie = req.cookies["jwt"];
         const claims = jwt.verify(cookie,"secret")
 
@@ -84,11 +82,11 @@ router.get("/user", async (req,res)=>{
         const { password, ...data} = user.toJSON();
 
         res.send(data);
-    //}catch(err){
-    //    return res.status(401).send({
-    //        message: 'unauthenticated'
-    //    })
-    //}
+    }catch(err){
+        return res.status(401).send({
+            message: 'unauthenticated'
+        })
+    }
 })
 
 router.post("/logout",(req,res)=>{
@@ -99,5 +97,29 @@ router.post("/logout",(req,res)=>{
 })
 
 
+//----------------------------
+const verifyToken = (req,res,next)=>{
+    const cookie = req.cookies["jwt"];
+    const claims = jwt.verify(cookie,"secret");
+
+    if(!cookie)
+    return res.status(401).send({
+        message: 'no token provided'
+    })
+
+    if(!claims)
+        return res.status(401).send({
+            message: 'unauthenticated'
+        })
+
+    next();
+}
+
+//dont check jwt for login and register
+router.use((req,res,next)=>{
+    if(req.path() === "/login" || req.path() ==="/register" || req.path() ==="/user")
+        return next();
+    verifyToken();
+});
 
 module.exports = router;

@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit{
       password: ''
     })
     this.errorMsg = '';
-    this.emailRegex = /[a-zA-Z]+@[a-z]+\.[a-z]+/;
+    this.emailRegex = /[a-zA-Z1-9]+@[a-z]+\.[a-z]+/;
+    
   }
 
   login(): void{

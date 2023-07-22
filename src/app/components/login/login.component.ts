@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-login',
@@ -25,6 +27,12 @@ export class LoginComponent implements OnInit{
 
 
   ngOnInit(): void {
+    this.http.get<{hasToken: boolean}>(`${environment.apiUrl}/checkToken`, { withCredentials: true })
+    .subscribe(res=>{
+      if(res.hasToken)
+        this.router.navigate(['/home']);
+    })
+
     this.form = this.formBuilder.group({
       email: '',
       password: ''
@@ -44,9 +52,9 @@ export class LoginComponent implements OnInit{
       this.errorMsg = 'invalid email';
       return;
     }
-    this.http.post('http://localhost:5123/login',value, { withCredentials: true })
+    this.http.post(`${environment.apiUrl}/login`,value, { withCredentials: true })
     .subscribe((res)=>{
-      this.router.navigate(['/home'])
+        this.router.navigate(['/home'])
     });
 
 

@@ -5,15 +5,29 @@ const User = require('../models/user.schema');
 const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser");
 
-//http://localhost:5123/user
-//router.use(cookieParser());
+//check if client already has active token
+router.get("/checkToken", async (req,res) => {
+    try{
+        const cookie = req.cookies["jwt"];
+        if(!cookie)
+            return res.status(200).send({hasToken: false});
+        const claims = jwt.verify(cookie,"secret");
+        if(!claims){
+            return res.status(200).send({hasToken: false});
+        }
+        res.send({hasToken: true});
+
+    }catch(err){
+        res.status(500).json({message: err.message});
+    }
+})
 
 router.post("/register", async (req,res)=>{
     try {
 
         if(await User.findOne({email: req.body.email})){
             return res.status(200).send({
-                taken: 1,
+                taken: true,
                 message: "user with that email already exists"
             });
         }
@@ -40,30 +54,33 @@ router.post("/register", async (req,res)=>{
 
 router.post("/login", async (req,res)=>{
 
-    const user = await User.findOne({email: req.body.email});
+    try{
+        const user = await User.findOne({email: req.body.email});
 
-    if(!user){
-        return res.status(404).send({
-            message: 'user not found'
+        if(!user){
+            return res.status(404).send({
+                message: 'user not found'
+            });
+        }
+
+        if(!await bcrypt.compare(req.body.password, user.password)){
+            return res.status(404).send({
+                message: 'invalid credentials'
+            })
+        }
+
+        const token = jwt.sign({_id: user._id},"secret");
+
+        res.cookie("jwt",token,{
+            httpOnly: true,
+            maxAge: 60*60*1000
         })
+        res.send({
+            message: 'success'
+        });
+    }catch(error){
+        res.status(500).send({message: error.message});
     }
-
-    if(!await bcrypt.compare(req.body.password, user.password)){
-        return res.status(404).send({
-            message: 'invalid credentials'
-        })
-    }
-
-    const token = jwt.sign({_id: user._id},"secret");
-
-    res.cookie("jwt",token,{
-        httpOnly: true,
-        maxAge: 60*60*1000
-    })
-    res.send({
-        message: 'success'
-    });
-
 })
 
 
@@ -97,29 +114,6 @@ router.post("/logout",(req,res)=>{
 })
 
 
-//----------------------------
-const verifyToken = (req,res,next)=>{
-    const cookie = req.cookies["jwt"];
-    const claims = jwt.verify(cookie,"secret");
 
-    if(!cookie)
-    return res.status(401).send({
-        message: 'no token provided'
-    })
-
-    if(!claims)
-        return res.status(401).send({
-            message: 'unauthenticated'
-        })
-
-    next();
-}
-
-//dont check jwt for login and register
-router.use((req,res,next)=>{
-    if(req.path() === "/login" || req.path() ==="/register" || req.path() ==="/user")
-        return next();
-    verifyToken();
-});
 
 module.exports = router;

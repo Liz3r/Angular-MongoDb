@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -24,6 +25,13 @@ export class RegisterComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
+    this.http.get<{hasToken: boolean}>(`${environment.apiUrl}/checkToken`, { withCredentials: true })
+    .subscribe(res=>{
+      if(res.hasToken)
+        this.router.navigate(['/home']);
+    })
+
     this.form = this.formBuilder.group({
       name: '',
       surname: '',
@@ -59,9 +67,9 @@ export class RegisterComponent implements OnInit{
     this.errorMsg = '';
     const {rPassword, ...user} = values;
     
-    this.http.post("http://localhost:5123/register",user)
+    this.http.post<any>(`${environment.apiUrl}/register`,user)
     .subscribe((res)=>{
-      if(res.hasOwnProperty("taken")){
+      if(res.taken === true){
         this.errorMsg = 'user with this email already exists';
         return;
       }

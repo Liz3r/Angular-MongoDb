@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { HeadComponent } from './components/home/head/head.component';
+import { HomeBodyComponent } from './components/home/home-body/home-body.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -16,14 +18,16 @@ import { HeadComponent } from './components/home/head/head.component';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    HeadComponent
+    HeadComponent,
+    HomeBodyComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

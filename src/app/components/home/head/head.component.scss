@@ -19,6 +19,7 @@ div.header-btn{
     height: 100%;
     font-weight: 900;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    cursor: pointer;
 }
 
 div.header-btn:hover{
@@ -26,3 +27,12 @@ div.header-btn:hover{
     background-color: rgb(60, 214, 137);
 }
 
+div.upper-header-container{
+    height: 35px;
+}
+
+fa-icon{
+    color: white;
+    width: 25px;
+    height: 25px;
+}

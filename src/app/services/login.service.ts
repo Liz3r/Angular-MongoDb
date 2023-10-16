@@ -1,12 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ErrorHandler, Injectable } from '@angular/core';
-import { catchError } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginServiceService {
+export class LoginService {
 
   constructor(
     private http: HttpClient

@@ -11,6 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { HeadComponent } from './components/home/head/head.component';
 import { HomeBodyComponent } from './components/home/home-body/home-body.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ProductComponent } from './components/home/home-body/product/product.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     RegisterComponent,
     HomeComponent,
     HeadComponent,
-    HomeBodyComponent
+    HomeBodyComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,

@@ -33,7 +33,6 @@ router.post("/register", async (req,res)=>{
         }
 
         const salt = await bcrypt.genSalt(10);
-        
         const hPassword = await bcrypt.hash(req.body.password,salt);
 
         const user = new User({
@@ -64,7 +63,7 @@ router.post("/login", async (req,res)=>{
         }
 
         if(!await bcrypt.compare(req.body.password, user.password)){
-            return res.status(404).send({
+            return res.status(401).send({
                 message: 'invalid credentials'
             })
         }
@@ -84,35 +83,47 @@ router.post("/login", async (req,res)=>{
 })
 
 
-router.get("/user", async (req,res)=>{
-    try{
-        const cookie = req.cookies["jwt"];
-        const claims = jwt.verify(cookie,"secret")
+// router.get("/user", async (req,res)=>{
+//     try{
+//         const cookie = req.cookies["jwt"];
+//         const claims = jwt.verify(cookie,"secret")
 
-        if(!claims){
-            return res.status(401).send({
-                message: 'unauthenticated'
-            })
-        }
+//         if(!claims){
+//             return res.status(401).send({
+//                 message: 'unauthenticated'
+//             })
+//         }
 
-        const user = await User.findOne({_id: claims._id});
-        const { password, ...data} = user.toJSON();
+//         const user = await User.findOne({_id: claims._id});
+//         const { password, ...data} = user.toJSON();
 
-        res.send(data);
-    }catch(err){
-        return res.status(401).send({
-            message: 'unauthenticated'
-        })
-    }
-})
+//         res.send(data);
+//     }catch(err){
+//         return res.status(401).send({
+//             message: 'unauthenticated'
+//         })
+//     }
+// })
 
-router.post("/logout",(req,res)=>{
+router.post("/logout", verifyToken,(req,res)=>{
     res.cookie('jwt','',{ maxAge: 0});
     res.send({
         message: 'success'
     })
 })
 
+function verifyToken(req, res, next) {
+
+    const token = req.cookies['jwt'];
+    if (!token) return res.status(401).send({ error: 'Access denied' });
+    try {
+        const decoded = jwt.verify(token, 'secret');
+        req.userId = decoded.userId;
+        next();
+    }catch (error) {
+        res.status(401).send({ error: 'Invalid token' });
+    }
+};
 
 
 

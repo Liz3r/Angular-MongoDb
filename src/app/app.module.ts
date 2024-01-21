@@ -12,6 +12,7 @@ import { HeadComponent } from './components/home/head/head.component';
 import { HomeBodyComponent } from './components/home/home-body/home-body.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProductComponent } from './components/home/home-body/product/product.component';
+import { SideBarComponent } from './components/home/home-body/side-bar/side-bar.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ProductComponent } from './components/home/home-body/product/product.co
     HomeComponent,
     HeadComponent,
     HomeBodyComponent,
-    ProductComponent
+    ProductComponent,
+    SideBarComponent
   ],
   imports: [
     BrowserModule,

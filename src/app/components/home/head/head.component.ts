@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -10,5 +11,11 @@ export class HeadComponent {
 
   phoneIcon = faPhone;
 
+  constructor(
+    private router: Router
+  ){}
   
+  profile(): void{
+    this.router.navigate(['/profile']);
+  }
 }

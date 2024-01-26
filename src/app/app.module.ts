@@ -13,6 +13,7 @@ import { HomeBodyComponent } from './components/home/home-body/home-body.compone
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProductComponent } from './components/home/home-body/product/product.component';
 import { SideBarComponent } from './components/home/home-body/side-bar/side-bar.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SideBarComponent } from './components/home/home-body/side-bar/side-bar.
     HeadComponent,
     HomeBodyComponent,
     ProductComponent,
-    SideBarComponent
+    SideBarComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

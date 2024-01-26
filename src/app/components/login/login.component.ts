@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit{
     
   }
 
-  login(): void{
+  login():void{
     const value = this.form.getRawValue();
     if(value.email.length === 0 || value.password.length === 0){
       this.errorMsg = 'fill empty fields';

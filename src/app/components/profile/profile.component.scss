@@ -37,11 +37,7 @@ div.separator-div{
     width: 250px;
     height: 250px;
     background-color: #D8DEE4;
-    margin-left: 100px;
-    margin-top: 45px;
-    margin-right: auto;
     border-radius: 100%;
-    border: 0;
 }
 
 input.profile-inputs{
@@ -79,6 +75,32 @@ label{
     height: 50px;
     width: 50%;
 
+}
+.image-field-div{
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.image-label{
+    position: relative;
+    top: 70px;
+    right: 60px;
+    padding: 10px;
+    border-radius: 100%;
+    background-color: white;
+}
+
+.image-label:hover{
+    color: white;
+    background-color: rgb(60, 214, 137);
+}
+
+
+.hidden{
+    display: none;
 }
 
 .btn-primary{

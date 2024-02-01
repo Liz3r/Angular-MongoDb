@@ -8,12 +8,13 @@ import { RegisterComponent } from './components/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
-import { HeadComponent } from './components/home/head/head.component';
-import { HomeBodyComponent } from './components/home/home-body/home-body.component';
+import { HeadComponent } from './components/head/head.component';
+import { HomeBodyComponent } from './components/home-body/home-body.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ProductComponent } from './components/home/home-body/product/product.component';
-import { SideBarComponent } from './components/home/home-body/side-bar/side-bar.component';
+import { ProductComponent } from './components/product/product.component';
+import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ProductsContainerComponent } from './components/products-container/products-container.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     HomeBodyComponent,
     ProductComponent,
     SideBarComponent,
-    ProfileComponent
+    ProfileComponent,
+    ProductsContainerComponent
   ],
   imports: [
     BrowserModule,

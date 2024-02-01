@@ -18,4 +18,8 @@ export class HeadComponent {
   profile(): void{
     this.router.navigate(['/profile']);
   }
+
+  home():void{
+    this.router.navigate(['/home']);
+  }
 }

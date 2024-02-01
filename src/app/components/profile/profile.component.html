@@ -22,8 +22,16 @@
                 <input class="form-control profile-inputs">
             </div>
         </form>
+            <div class="image-field-div">
+                <img class="profile-img">
 
-            <img class="profile-img">
+                <div class="image-label">
+                    <label for="image-input">    
+                        <input id="image-input" type="file" accept="image/*" class="hidden" (change)="onImageSelected($event)">
+                        <fa-icon [icon]="addImageIcon" class="fa-2xl image-icon"></fa-icon>
+                    </label>
+                </div>
+            </div>
             
     </div>
 

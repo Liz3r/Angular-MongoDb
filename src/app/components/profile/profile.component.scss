@@ -40,6 +40,11 @@ div.separator-div{
     border-radius: 100%;
 }
 
+.err-div{
+    text-align: center;
+    color: red;
+}
+
 input.profile-inputs{
     width: 400px;
     border: 1px solid #D0D7DE;
@@ -76,6 +81,14 @@ label{
     width: 50%;
 
 }
+
+.img-rev{
+    
+}
+
+.image-icon{
+    cursor: pointer;
+}
 .image-field-div{
     display: flex;
     flex-grow: 1;
@@ -91,6 +104,7 @@ label{
     padding: 10px;
     border-radius: 100%;
     background-color: white;
+    cursor: pointer;
 }
 
 .image-label:hover{

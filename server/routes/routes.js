@@ -5,23 +5,6 @@ const User = require('../models/user.schema');
 const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser");
 
-//check if client already has active token
-router.get("/checkToken", async (req,res) => {
-    try{
-        const cookie = req.cookies["jwt"];
-        if(!cookie)
-            return res.status(200).send({hasToken: false});
-        const claims = jwt.verify(cookie,"secret");
-        if(!claims){
-            return res.status(200).send({hasToken: false});
-        }
-        res.send({hasToken: true});
-
-    }catch(err){
-        res.status(500).json({message: err.message});
-    }
-})
-
 router.post("/register", async (req,res)=>{
     try {
 
@@ -68,13 +51,13 @@ router.post("/login", async (req,res)=>{
             })
         }
 
-        const token = jwt.sign({_id: user._id},"secret");
-
+        const token = jwt.sign({userId: user._id},"secret");
+        
         res.cookie("jwt",token,{
-            httpOnly: true,
+            httpOnly: false,
             maxAge: 60*60*1000
         })
-        res.send({
+        res.status(200).send({
             message: 'success'
         });
     }catch(error){
@@ -82,6 +65,17 @@ router.post("/login", async (req,res)=>{
     }
 })
 
+router.get("/getUserProfile", verifyToken, async (req,res) => {
+    const userId = req.userId;
+
+    const user = await User.findById(userId);
+    console.log(userId);
+    res.status(200).send(user);
+})
+
+router.post("/updateUser", verifyToken, (req,res) => {
+    const userId = req.userId;
+})
 
 // router.get("/user", async (req,res)=>{
 //     try{
@@ -105,12 +99,16 @@ router.post("/login", async (req,res)=>{
 //     }
 // })
 
-router.post("/logout", verifyToken,(req,res)=>{
+router.post("/logout", verifyToken, async (req,res)=>{
+    
     res.cookie('jwt','',{ maxAge: 0});
-    res.send({
+    res.status(200).send({
         message: 'success'
     })
+
 })
+
+
 
 function verifyToken(req, res, next) {
 
@@ -124,6 +122,7 @@ function verifyToken(req, res, next) {
         res.status(401).send({ error: 'Invalid token' });
     }
 };
+
 
 
 

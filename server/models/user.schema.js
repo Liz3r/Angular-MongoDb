@@ -24,14 +24,12 @@ const UserSchema = new mongoose.Schema(
         address: {
             type: String,
             required: true
-        }
-        // ,
-        // followingProducts: [
-        //     { 
-        //         type: mongoose.SchemaTypes.ObjectId,
-        //         ref: Product
-        //     }
-        // ]
+        },
+
+        picture: {
+             data: Buffer,
+             type: String
+         }
     }
 )
 

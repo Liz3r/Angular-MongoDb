@@ -6,34 +6,38 @@
     <div class="display-row">
         <form>
             <div class="form-group">
-                <label>Username</label>
-                <input class="form-control profile-inputs">
+                <label>Email</label>
+                <input class="form-control profile-inputs" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" (ngModelChange)="addressChange($event)">
             </div>
             <div class="form-group">
                 <label>Name</label>
-                <input class="form-control profile-inputs">
+                <input class="form-control profile-inputs" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" (ngModelChange)="addressChange($event)">
             </div>
             <div class="form-group">
                 <label>Surname</label>
-                <input class="form-control profile-inputs">
+                <input class="form-control profile-inputs" [(ngModel)]="surname" [ngModelOptions]="{standalone: true}" (ngModelChange)="addressChange($event)">
             </div>
             <div class="form-group">
                 <label>Address</label>
-                <input class="form-control profile-inputs">
+                <input class="form-control profile-inputs" [(ngModel)]="address" [ngModelOptions]="{standalone: true}" (ngModelChange)="addressChange($event)">
             </div>
         </form>
+
             <div class="image-field-div">
-                <img class="profile-img">
+                <img class="profile-img" [src]="pic">
 
                 <div class="image-label">
                     <label for="image-input">    
-                        <input id="image-input" type="file" accept="image/*" class="hidden" (change)="onImageSelected($event)">
+                        <input id="image-input" type="file" accept="image/*" class="hidden" (change)="onImageSelected($event)"/>
                         <fa-icon [icon]="addImageIcon" class="fa-2xl image-icon"></fa-icon>
                     </label>
                 </div>
             </div>
             
     </div>
+
+    <div class="err-div">{{profileChangesErr}}</div>
+    <button class="btn btn-primary" (click)="onSubmit()">Save changes</button>
 
     <h2 class="top-margin">Change password</h2>
     <div class="separator-div"></div>
@@ -57,6 +61,6 @@
 
 
     <div class="err-div"></div>
+    <button class="btn btn-primary">Change password</button>
 
-    <button class="btn btn-primary">Save changes</button>
 </div>

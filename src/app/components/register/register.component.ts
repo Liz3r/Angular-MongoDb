@@ -26,12 +26,6 @@ export class RegisterComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.http.get<{hasToken: boolean}>(`${environment.apiUrl}/checkToken`, { withCredentials: true })
-    .subscribe(res=>{
-      if(res.hasToken)
-        this.router.navigate(['/home']);
-    })
-
     this.form = this.formBuilder.group({
       name: '',
       surname: '',

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, inject } from '@angular/core';
 import { Observer } from 'rxjs';
+import check from 'src/app/checkCookie';
 
 @Component({
   selector: 'app-home',
@@ -10,20 +11,24 @@ import { Observer } from 'rxjs';
 export class HomeComponent implements OnInit{
 
 
+  private checkCookie = inject(check);
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   )
   {
 
   }
 
   ngOnInit(): void {
-    this.http.get("http://localhost:5123/user",{withCredentials: true})
-    .subscribe((res:any)=>{
-        console.log(res);
-      }
-    )
+    
+    this.checkCookie.cookie();
+
+    // this.http.get("http://localhost:5123/user",{withCredentials: true})
+    // .subscribe((res:any)=>{
+    //     console.log(res);
+    //   }
+    // )
   }
 
 }

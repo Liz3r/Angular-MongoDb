@@ -3,29 +3,30 @@
 <div class="profile-container">
     <h2>User profile</h2>
     <div class="separator-div"></div>
-    <div class="display-row">
-        <form>
-            <div class="form-group">
-                <label>Email</label>
-                <input class="form-control profile-inputs" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" (ngModelChange)="addressChange($event)">
+    <form [formGroup]="form" enctype="multipart/form-data">
+        <div class="display-row">
+            <div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input formControlName="email" class="profile-inputs form-control">
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input formControlName="name" class="profile-inputs form-control">
+                </div>
+                <div class="form-group">
+                    <label>Surname</label>
+                    <input formControlName="surname" class="profile-inputs form-control">
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input formControlName="address" class="profile-inputs form-control">
+                </div>
             </div>
-            <div class="form-group">
-                <label>Name</label>
-                <input class="form-control profile-inputs" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" (ngModelChange)="addressChange($event)">
-            </div>
-            <div class="form-group">
-                <label>Surname</label>
-                <input class="form-control profile-inputs" [(ngModel)]="surname" [ngModelOptions]="{standalone: true}" (ngModelChange)="addressChange($event)">
-            </div>
-            <div class="form-group">
-                <label>Address</label>
-                <input class="form-control profile-inputs" [(ngModel)]="address" [ngModelOptions]="{standalone: true}" (ngModelChange)="addressChange($event)">
-            </div>
-        </form>
-
+            
             <div class="image-field-div">
-                <img class="profile-img" [src]="pic">
-
+                <img class="profile-img" [src]="pictureData">
+                
                 <div class="image-label">
                     <label for="image-input">    
                         <input id="image-input" type="file" accept="image/*" class="hidden" (change)="onImageSelected($event)"/>
@@ -34,10 +35,11 @@
                 </div>
             </div>
             
-    </div>
+        </div>
+        <div class="err-div">{{profileChangesErr}}</div>
+        <button class="btn btn-primary" (click)="onSubmit()">Save changes</button>
+        </form>
 
-    <div class="err-div">{{profileChangesErr}}</div>
-    <button class="btn btn-primary" (click)="onSubmit()">Save changes</button>
 
     <h2 class="top-margin">Change password</h2>
     <div class="separator-div"></div>

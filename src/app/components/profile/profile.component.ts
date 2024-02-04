@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Form, FormControl, FormGroup } from '@angular/forms';
 import '@fortawesome/fontawesome-svg-core';
 import { faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/models/user';
@@ -15,14 +16,10 @@ export class ProfileComponent implements OnInit{
   addImageIcon = faFolderOpen;
 
 
+  form!: FormGroup;
 
-  file: File | undefined;
-
-  pic: String = "../../assets/profile_placeholder.png";
-  email!: String;
-  name!: String;
-  surname!: String;
-  address!: String;
+  file: File | null | undefined;
+  pictureData: String = "../../assets/profile_placeholder.png";
 
   profileChangesErr: String = '';
 
@@ -33,12 +30,20 @@ export class ProfileComponent implements OnInit{
   }
   ngOnInit(): void {
     
+    this.form = new FormGroup({
+      email: new FormControl<String>(''),
+      name: new FormControl<String>(''),
+      surname: new FormControl<String>(''),
+      address: new FormControl<String>(''),
+      picture: new FormControl(null)
+  });
+
     this.http.get<User>(`${environment.apiUrl}/getUserProfile`,{ withCredentials: true})
     .subscribe(res=>{
-      this.email = res.email;
-      this.name = res.name;
-      this.surname = res.surname;
-      this.address = res.address;
+      this.form.patchValue({email: res.email});
+      this.form.patchValue({name: res.name});
+      this.form.patchValue({surname: res.surname});
+      this.form.patchValue({address: res.address});
     })
   }
 
@@ -56,33 +61,23 @@ export class ProfileComponent implements OnInit{
     }
     this.file = target.files[0];
 
-    if(this.file.size < 400*1024){ 
-      //velicina slike mora biti ispod 400 KB
+    const types = ["image/png", "image/jpg", "image/jpeg"];
 
-      this.pic = URL.createObjectURL(this.file);
+    if(this.file && types.includes(this.file.type) && this.file.size < 400*1024){ 
+      //velicina slike mora biti ispod 400 KB
+      this.form.patchValue({picture: this.file});
+      this.pictureData = URL.createObjectURL(this.file);
     }else{
 
-      this.pic = "../../assets/profile_placeholder.png";
-      this.profileChangesErr = 'File too large (max 400KB)';
+      this.form.patchValue({picture: null});
+      this.pictureData = "../../assets/profile_placeholder.png";
+      this.profileChangesErr = this.file.size < 400*1024? 'File too large (max 400KB)' : 'Invalid format';
+      this.file = null;
     }
-    console.log(this.file.size);
-  }
-
-
-  addressChange(newAddress: String){
-    this.address = newAddress;
-  }
-  nameChange(newName: String){
-    this.name = newName;
-  }
-  surnameChange(newSurname: String){
-    this.surname = newSurname;
-  }
-  emailChange(newEmail: String){
-    this.email = newEmail;
+    console.log(this.file?.size);
   }
 
   onSubmit(){
-    console.log(this.address);
+    console.log(this.form);
   }
 }

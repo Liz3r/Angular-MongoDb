@@ -3,7 +3,26 @@ const bcrypt = require('bcrypt')
 const Product = require("../models/product.schema");
 const User = require('../models/user.schema');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 const cookieParser = require("cookie-parser");
+
+
+const upload = multer({ dest: 'uploads/' });
+
+
+router.post("/updateUserProfile", verifyToken, (req,res) => {
+    const userId = req.userId;
+
+
+})
+
+router.get("/getUserProfile", verifyToken, async (req,res) => {
+    const userId = req.userId;
+
+    const user = await User.findById(userId);
+
+    res.status(200).send(user);
+})
 
 router.post("/register", async (req,res)=>{
     try {
@@ -65,17 +84,8 @@ router.post("/login", async (req,res)=>{
     }
 })
 
-router.get("/getUserProfile", verifyToken, async (req,res) => {
-    const userId = req.userId;
 
-    const user = await User.findById(userId);
-    console.log(userId);
-    res.status(200).send(user);
-})
 
-router.post("/updateUser", verifyToken, (req,res) => {
-    const userId = req.userId;
-})
 
 // router.get("/user", async (req,res)=>{
 //     try{

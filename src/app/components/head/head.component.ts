@@ -34,4 +34,8 @@ export class HeadComponent {
   home():void{
     this.router.navigate(['/home']);
   }
+
+  myProducts():void{
+    this.router.navigate(['/my-products']);
+  }
 }

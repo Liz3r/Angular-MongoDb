@@ -7,21 +7,126 @@ const multer = require('multer');
 const cookieParser = require("cookie-parser");
 
 
-const upload = multer({ dest: 'uploads/' });
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) =>{
+        cb(null, req.userId + file.fieldname);
+    }
+})
+
+const tipoviFilter = (req, file, cb) => {
+    const tipovi = ["image/png", "image/jpeg", "image/jpg"];
+    if(tipovi.includes(file.mimetype)){
+        return cb(null, true);
+    }
+    return cb(null, false);
+}
+
+const upload = multer({storage: storage, filter: tipoviFilter}).single('picture');
 
 
-router.post("/updateUserProfile", verifyToken, (req,res) => {
+
+//--------------------------------------------------------------------------------------
+
+
+router.post("/updateUserProfile", verifyToken, upload, async (req,res) => {
     const userId = req.userId;
 
+
+    try {
+        if(req.body.email === '' || 
+        req.body.name === '' ||
+        req.body.surname === '' ||
+        req.body.address === ''){
+            res.status(400).send({message: 'Invalid input'});
+            return;
+        }
+        
+        const user = await User.findById(userId);
+        if(!user){
+            res.status(404).send({message: 'User not found'});
+            return;
+        }
+
+        const newEmail = req.body.email;
+        const emailExists = await User.findOne({email: newEmail});
+        if(user.email != newEmail && emailExists){
+            res.status(409).send('Email already taken');
+            return;
+        }
+    
+        await User.updateOne({_id: userId}, {
+            $set: {name: req.body.name,
+                    surname: req.body.surname,
+                    email: newEmail,
+                    address: req.body.address,
+                    picture: `http://localhost:5123/uploads/${req.file.filename}`}
+        });
+        
+    
+        res.status(200).send({message: 'success'});
+
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
 
 })
 
 router.get("/getUserProfile", verifyToken, async (req,res) => {
     const userId = req.userId;
 
-    const user = await User.findById(userId);
+    try {
+        //pribavljaju se samo potrebna polja korisnika za zadatim userId
+        const user = await User.findById(userId, { _id: 0, name: 1, surname: 1, email: 1, picture: 1, address: 1});
+    
+        if(!user){
+            res.status(404).send({message: 'User not found'});
+            return;
+        }
+    
+        res.status(200).send(user);
+    } catch (error) {
+        res.status(500).send({message: error});
+    }
+})
 
-    res.status(200).send(user);
+router.post("/changePassword", verifyToken, async (req,res) => {
+    const userId = req.userId;
+    
+    try {
+        const user = await User.findById(userId);
+    
+        if(!user){
+            res.status(404).send({
+                message: 'user not found'
+            });
+            return;
+        }
+
+        if(!req.body.newPassword || req.body.newPassword.length < 5){
+            res.status(400).send({message: 'Password too short'});
+            return;
+        }
+    
+        if(!await bcrypt.compare(req.body.password, user.password)){
+            res.status(401).send({
+                message: 'invalid credentials'
+            });
+            return;
+        }
+    
+        const salt = await bcrypt.genSalt(10);
+        const hPassword = await bcrypt.hash(req.body.newPassword,salt);
+    
+        await User.updateOne({_id: userId},{ $set: { password: hPassword}});
+    
+        res.status(200).send({message: 'Password updated'});
+
+    } catch (error) {
+        res.status(500).send({message: error});
+    }
 })
 
 router.post("/register", async (req,res)=>{
@@ -42,7 +147,8 @@ router.post("/register", async (req,res)=>{
             surname: req.body.surname,
             email: req.body.email,
             password: hPassword,
-            address: req.body.address
+            address: req.body.address,
+            picture: null
         });
 
         user.save();
@@ -66,7 +172,7 @@ router.post("/login", async (req,res)=>{
 
         if(!await bcrypt.compare(req.body.password, user.password)){
             return res.status(401).send({
-                message: 'invalid credentials'
+                message: 'invalid password'
             })
         }
 
@@ -85,30 +191,6 @@ router.post("/login", async (req,res)=>{
 })
 
 
-
-
-// router.get("/user", async (req,res)=>{
-//     try{
-//         const cookie = req.cookies["jwt"];
-//         const claims = jwt.verify(cookie,"secret")
-
-//         if(!claims){
-//             return res.status(401).send({
-//                 message: 'unauthenticated'
-//             })
-//         }
-
-//         const user = await User.findOne({_id: claims._id});
-//         const { password, ...data} = user.toJSON();
-
-//         res.send(data);
-//     }catch(err){
-//         return res.status(401).send({
-//             message: 'unauthenticated'
-//         })
-//     }
-// })
-
 router.post("/logout", verifyToken, async (req,res)=>{
     
     res.cookie('jwt','',{ maxAge: 0});
@@ -117,7 +199,6 @@ router.post("/logout", verifyToken, async (req,res)=>{
     })
 
 })
-
 
 
 function verifyToken(req, res, next) {

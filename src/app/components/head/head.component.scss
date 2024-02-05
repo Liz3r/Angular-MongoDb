@@ -2,15 +2,11 @@ div.head-container{
     height: auto;
     background-color: #F6F8FA;
     box-shadow: 0px 2px 2px gray;
-}
-div.upper-header-container{
-    height: 35px;
-    background-color: #202020;
-    display: flex;
+    width: 100vw;
 }
 
-b.number{
-    color: white;
+.fix{
+    width: 100vw; 
 }
 
 div.row{
@@ -47,7 +43,8 @@ fa-icon{
 
 .logout-div{
     position: absolute;
-    left: 85vw;
+    right: 30px;
+    top: 5px;
 }
 
 .logout-btn{

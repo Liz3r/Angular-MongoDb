@@ -1,6 +1,6 @@
 <div class="head-container justify-content-center">
 
-    <div class="row align-items-center justify-content-center">
+    <div class="row align-items-center justify-content-center fix">
 
         <div (click)="home()" class="col-md-1 text-center header-btn">
             HOME
@@ -8,19 +8,19 @@
         <div class="col-md-1 text-center header-btn">
             FOLLOWING
         </div>
-        <div class="col-md-1 text-center header-btn">
+        <div (click)="myProducts()" class="col-md-1 text-center header-btn">
             MY PRODUCTS
         </div>
         <div (click)="profile()" class="col-md-1 text-center header-btn">
             PROFILE
         </div>
-    
-        <div class="logout-div">
-            <label class="username-lab">Username</label>
-            <button class="btn btn-primary" (click)="logout()">Logout</button>
-        </div>
+        
     </div>
-
+    
+    <div class="logout-div">
+        <label class="username-lab">Username</label>
+        <button class="btn btn-primary" (click)="logout()">Logout</button>
+    </div>
     
 </div>
 

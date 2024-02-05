@@ -15,6 +15,7 @@ import { ProductComponent } from './components/product/product.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProductsContainerComponent } from './components/products-container/products-container.component';
+import { MyProductsComponent } from './components/my-products/my-products.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ProductsContainerComponent } from './components/products-container/prod
     ProductComponent,
     SideBarComponent,
     ProfileComponent,
-    ProductsContainerComponent
+    ProductsContainerComponent,
+    MyProductsComponent
   ],
   imports: [
     BrowserModule,

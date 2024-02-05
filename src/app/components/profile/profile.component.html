@@ -44,25 +44,25 @@
     <h2 class="top-margin">Change password</h2>
     <div class="separator-div"></div>
 
-    <form>
+    <form [formGroup]="passwordForm">
         <div class="form-group">
             <label>Old password</label>
-            <input class="form-control profile-inputs">
+            <input class="form-control profile-inputs" formControlName="password">
         </div>
         <div class="display-row">
             <div class="form-group">
                 <label>New password</label>
-                <input class="form-control profile-inputs">
+                <input class="form-control profile-inputs" formControlName="newPassword">
             </div>
             <div class="form-group">
                 <label>Repeat new password</label>
-                <input class="form-control profile-inputs">
+                <input class="form-control profile-inputs" formControlName="newPasswordRepeat">
             </div>
         </div>
     </form>
 
 
-    <div class="err-div"></div>
-    <button class="btn btn-primary">Change password</button>
+    <div class="err-div">{{changePasswordErr}}</div>
+    <button class="btn btn-primary" (click)="changePassword()">Change password</button>
 
 </div>

@@ -3,19 +3,26 @@ const User = require("./user.schema");
 
 const ProductSchema = new mongoose.Schema(
     {
-        name: {
+        title: {
             type: String,
             required: true
         },
-        details: {
+        description: {
             type: String,
             required: true
+        },
+        datePosted: {
+            type: Date,
+            required: true
+        },
+        price: {
+            type: Number,
+            required: true
+        },
+        owner: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
         }
-        // },
-        // owner: {
-        //     type: mongoose.SchemaTypes.ObjectId,
-        //     ref: User
-        // }
     }
 )
 

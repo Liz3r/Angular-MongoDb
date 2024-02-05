@@ -19,6 +19,7 @@ app.use(cors({
 }));
 app.use('/',routes);
 
+app.use('/uploads',express.static('uploads'));
 
 mongoose.connect(uri)
 .then(() => {

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const User = require("./user.schema");
 
 const ProductSchema = new mongoose.Schema(
     {
@@ -18,6 +17,18 @@ const ProductSchema = new mongoose.Schema(
         price: {
             type: Number,
             required: true
+        },
+        state: {
+            type: String,
+            required: true
+        },
+        currency: {
+            type: String,
+            required: true
+        },
+        phoneNumber: {
+            type: String,
+            required: false
         },
         owner: {
             type: mongoose.Schema.Types.ObjectId,

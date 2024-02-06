@@ -1,0 +1,78 @@
+<app-head></app-head>
+
+<div class="add-item-container">
+
+    <form [formGroup]="form">
+        <div class="picture-and-info-div">
+
+            <label for="image-input" class="picture-div">
+                <img class="product-picture" [src]="pictureData">
+                <fa-icon *ngIf="!pictureData" [icon]="imageIcon" class="imageIcon fa-2xl"></fa-icon>
+                <input id="image-input" type="file" accept="image/*" class="hidden" (change)="onImageSelected($event)"/>
+            </label>
+            
+            <div class="separator-div"></div>
+
+            <div class="info-div">
+                <div class="title-div">
+                    <label for="title">Title</label>
+                    <input class="form-control" id="title" type="text" formControlName="title"/>
+                </div>
+
+
+                <div>
+                        <label for="price">Price</label>
+                        <div class="price-div">
+                        <input class="form-control" id="price"/>
+
+                            <label class="radio">
+                                <input type="radio" formControlName="currency" value="din"/>
+                                <span>din</span>
+                            </label>
+                            <label class="radio">
+                                <input type="radio" formControlName="currency" value="eur"/>
+                                <span>eur</span>
+                            </label>
+                        </div>
+                </div>
+
+                <label>State</label>
+                <div class="state-div">
+                    <label class="radio">
+                        <input type="radio" formControlName="state" value="new"/>
+                        <span>new</span>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" formControlName="state" value="used"/>
+                        <span>used</span>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" formControlName="state" value="unused"/>
+                        <span>unused</span>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" formControlName="state" value="faulty"/>
+                        <span>faulty</span>
+                    </label>
+                </div>
+
+                <div class="description-div">
+                    <label>Description</label>
+                    <textarea class="form-control"></textarea>
+                </div>
+
+                
+                <div class="number-div">
+                    <label for="number">Phone number</label>
+                    <input class="form-control" id="number" type="text" formControlName="number"/>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="err-div">{{errMsg}}</div>
+        <button class="btn btn-primary add-btn" (click)="submit()">Add item</button>
+    </form>
+
+</div>

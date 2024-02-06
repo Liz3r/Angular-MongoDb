@@ -16,6 +16,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProductsContainerComponent } from './components/products-container/products-container.component';
 import { MyProductsComponent } from './components/my-products/my-products.component';
+import { AddItemComponent } from './components/add-item/add-item.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { MyProductsComponent } from './components/my-products/my-products.compon
     SideBarComponent,
     ProfileComponent,
     ProductsContainerComponent,
-    MyProductsComponent
+    MyProductsComponent,
+    AddItemComponent
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,15 @@ div.row{
     height: 100%;
 }
 
+.btn-primary{
+    background-color: rgb(60, 214, 80);
+    border-color: rgb(60, 214, 80);
+}
+.btn-primary:active{
+    background-color: rgb(49, 168, 109);
+    border-color: rgb(49, 168, 109);
+}
+
 div.header-btn{
     display: flex;
     justify-content: center;

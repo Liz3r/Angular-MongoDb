@@ -11,8 +11,7 @@ import check from 'src/app/checkCookie';
 export class HomeComponent implements OnInit{
 
 
-  private checkCookie = inject(check);
-
+  
   constructor(
     private http: HttpClient,
   )
@@ -22,7 +21,7 @@ export class HomeComponent implements OnInit{
 
   ngOnInit(): void {
     
-    this.checkCookie.cookie();
+    
 
     // this.http.get("http://localhost:5123/user",{withCredentials: true})
     // .subscribe((res:any)=>{

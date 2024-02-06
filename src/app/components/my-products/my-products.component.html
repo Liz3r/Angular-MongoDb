@@ -1,8 +1,12 @@
 <app-head></app-head>
 
-<input class="search"/>
+<input class="search" placeholder="Search"/>
 
 <div class="post-btn" (click)="addItemPage()">
     <span class="plus"></span>
     <span class="text">Add Item</span>
+</div>
+
+<div *ngFor="let product of products | async" class="items-div">
+    <app-product [product]="product"></app-product>
 </div>

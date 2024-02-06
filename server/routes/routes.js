@@ -27,21 +27,66 @@ const tipoviFilter = (req, file, cb) => {
 const upload = multer({storage: storage, filter: tipoviFilter});
 
 
+//--------------------------------------------------------------------------------------
+
+router.get("/getItems", verifyToken, async (req,res) => {
+
+    const products = await Product.find({});//.limit(15);
+
+//     const ret = products.map(prod => {
+//         const mappedProd = {
+//         title: prod.title,
+//         description: prod.description,
+//         datePosted: prod.datePosted,
+//         price: prod.price,
+//         currency: prod.currency,
+//         state: prod.state,
+//         phoneNumber: prod.phoneNumber,
+//         picture: prod.picture
+//     };
+//     return mappedProd;
+// });
+
+    res.status(200).send(products);
+})
+
+
 
 //--------------------------------------------------------------------------------------
+
+function isNumber(str){
+
+    const numExp = /[0-9]+/;
+    const isMatch = str.match(numExp);
+    if(typeof(str) === 'string' && isMatch && isMatch[0] === str)
+        return true;
+    return false;
+}
 
 router.put("/postItem", verifyToken, upload.single('itemPicture'), async (req,res) => {
     const userId = req.userId;
 
     try {
+
+
+        if(!isNumber(req.body.phoneNumber)){
+            res.status(400).send({message: 'Invalid input: Phone number is not a number'});
+            return;
+        }
+
+        if(!isNumber(req.body.price)){
+            res.status(400).send({message: 'Invalid input: price is not a number'});
+            return;
+        }
+
         const product = new Product({
             title: req.body.title,
             description: req.body.description,
-            datePosted: (new Date()).toLocaleDateString(),
-            price: req.body.price,
+            datePosted: new Date(),
+            price: Number(req.body.price),
             currency: req.body.currency,
             state: req.body.state,
-            phoneNumber: req.body.phoneNumber,
+            phoneNumber: Number(req.body.phoneNumber),
             picture: `http://localhost:5123/uploads/${req.file.filename}`,
             owner: userId
         });

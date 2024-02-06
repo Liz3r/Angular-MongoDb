@@ -30,7 +30,7 @@ export class AddItemComponent implements OnInit{
       state: new FormControl<String>('new'),
       price: new FormControl<String>(''),
       description: new FormControl<String>(''),
-      number: new FormControl<String>(''),
+      phoneNumber: new FormControl<String>(''),
       itemPicture: new FormControl(null)
     });
   }
@@ -74,12 +74,13 @@ export class AddItemComponent implements OnInit{
   submit(){
     const data = new FormData();
 
+
     data.append('title', this.form.value.title);
     data.append('currency', this.form.value.currency);
     data.append('state', this.form.value.state);
     data.append('description', this.form.value.description);
     data.append('price', this.form.value.price);
-    data.append('number', this.form.value.number);
+    data.append('phoneNumber', this.form.value.phoneNumber);
     data.append('itemPicture', this.form.value.itemPicture, this.form.value.itemPicture.name);
 
     this.http.put(`${environment.apiUrl}/postItem`, data, { withCredentials: true})

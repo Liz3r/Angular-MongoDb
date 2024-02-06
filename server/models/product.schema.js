@@ -11,11 +11,11 @@ const ProductSchema = new mongoose.Schema(
             required: true
         },
         datePosted: {
-            type: String,
+            type: Date,
             required: true
         },
         price: {
-            type: String,
+            type: Number,
             required: true
         },
         currency: {
@@ -27,7 +27,7 @@ const ProductSchema = new mongoose.Schema(
             required: true
         },
         phoneNumber: {
-            type: String,
+            type: Number,
             required: false
         },
         picture: {

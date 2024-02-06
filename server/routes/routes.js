@@ -24,14 +24,38 @@ const tipoviFilter = (req, file, cb) => {
     return cb(null, false);
 }
 
-const upload = multer({storage: storage, filter: tipoviFilter}).single('picture');
+const upload = multer({storage: storage, filter: tipoviFilter});
 
 
 
 //--------------------------------------------------------------------------------------
 
+router.put("/postItem", verifyToken, upload.single('itemPicture'), async (req,res) => {
+    const userId = req.userId;
 
-router.post("/updateUserProfile", verifyToken, upload, async (req,res) => {
+    try {
+        const product = new Product({
+            title: req.body.title,
+            description: req.body.description,
+            datePosted: (new Date()).toLocaleDateString(),
+            price: req.body.price,
+            currency: req.body.currency,
+            state: req.body.state,
+            phoneNumber: req.body.phoneNumber,
+            picture: `http://localhost:5123/uploads/${req.file.filename}`,
+            owner: userId
+        });
+
+        product.save();
+
+        res.status(200).send({message: 'success'});
+    } catch (error) {
+        res.status(500).send({message: error.message})
+    }
+})
+
+
+router.post("/updateUserProfile", verifyToken, upload.single('picture'), async (req,res) => {
     const userId = req.userId;
 
 

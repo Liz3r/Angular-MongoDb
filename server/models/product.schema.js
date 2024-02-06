@@ -11,14 +11,10 @@ const ProductSchema = new mongoose.Schema(
             required: true
         },
         datePosted: {
-            type: Date,
+            type: String,
             required: true
         },
         price: {
-            type: Number,
-            required: true
-        },
-        state: {
             type: String,
             required: true
         },
@@ -26,7 +22,15 @@ const ProductSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        state: {
+            type: String,
+            required: true
+        },
         phoneNumber: {
+            type: String,
+            required: false
+        },
+        picture: {
             type: String,
             required: false
         },
@@ -38,4 +42,4 @@ const ProductSchema = new mongoose.Schema(
 )
 
 const Product = mongoose.model('Product',ProductSchema);
-mongoose.exports = Product;
+module.exports = Product;

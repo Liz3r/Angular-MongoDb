@@ -26,10 +26,6 @@ const ProductSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        phoneNumber: {
-            type: Number,
-            required: false
-        },
         picture: {
             type: String,
             required: false

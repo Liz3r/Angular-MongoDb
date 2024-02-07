@@ -12,13 +12,13 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/');
     },
     filename: (req, file, cb) =>{
-        cb(null, req.userId + file.fieldname);
+        cb(null, req.userId + file.originalname + file.fieldname);
     }
 })
 
 const tipoviFilter = (req, file, cb) => {
     const tipovi = ["image/png", "image/jpeg", "image/jpg"];
-    if(tipovi.includes(file.mimetype)){
+    if(file && tipovi.includes(file.mimetype)){
         return cb(null, true);
     }
     return cb(null, false);
@@ -29,9 +29,13 @@ const upload = multer({storage: storage, filter: tipoviFilter});
 
 //--------------------------------------------------------------------------------------
 
+router.get("/getItemDetails", verifyToken, async (req,res) => {
+
+})
+
 router.get("/getItems", verifyToken, async (req,res) => {
 
-    const products = await Product.find({});//.limit(15);
+    const products = await Product.find({});
 
 //     const ret = products.map(prod => {
 //         const mappedProd = {
@@ -46,6 +50,8 @@ router.get("/getItems", verifyToken, async (req,res) => {
 //     };
 //     return mappedProd;
 // });
+
+    console.log(products[0]);
 
     res.status(200).send(products);
 })
@@ -68,12 +74,6 @@ router.put("/postItem", verifyToken, upload.single('itemPicture'), async (req,re
 
     try {
 
-
-        if(!isNumber(req.body.phoneNumber)){
-            res.status(400).send({message: 'Invalid input: Phone number is not a number'});
-            return;
-        }
-
         if(!isNumber(req.body.price)){
             res.status(400).send({message: 'Invalid input: price is not a number'});
             return;
@@ -86,7 +86,6 @@ router.put("/postItem", verifyToken, upload.single('itemPicture'), async (req,re
             price: Number(req.body.price),
             currency: req.body.currency,
             state: req.body.state,
-            phoneNumber: Number(req.body.phoneNumber),
             picture: `http://localhost:5123/uploads/${req.file.filename}`,
             owner: userId
         });
@@ -108,7 +107,8 @@ router.post("/updateUserProfile", verifyToken, upload.single('picture'), async (
         if(req.body.email === '' || 
         req.body.name === '' ||
         req.body.surname === '' ||
-        req.body.address === ''){
+        req.body.address === '' ||
+        req.body.city){
             res.status(400).send({message: 'Invalid input'});
             return;
         }
@@ -125,14 +125,21 @@ router.post("/updateUserProfile", verifyToken, upload.single('picture'), async (
             res.status(409).send('Email already taken');
             return;
         }
+        if(!isNumber(req.body.phoneNumber)){
+            res.status(400).send({message: 'Invalid input: Phone number type is not a number'});
+            return;
+        }
     
-        await User.updateOne({_id: userId}, {
-            $set: {name: req.body.name,
-                    surname: req.body.surname,
-                    email: newEmail,
-                    address: req.body.address,
-                    picture: `http://localhost:5123/uploads/${req.file.filename}`}
-        });
+        const setObject = {name: req.body.name,
+            surname: req.body.surname,
+            email: newEmail,
+            address: req.body.address,
+            city: req.body.city,
+            phoneNumber: Number(req.body.phoneNumber),
+            ...(req.file) && {picture: `http://localhost:5123/uploads/${req.file.filename}`}
+        };
+
+        await User.updateOne({_id: userId}, { $set: setObject });
         
     
         res.status(200).send({message: 'success'});
@@ -148,7 +155,7 @@ router.get("/getUserProfile", verifyToken, async (req,res) => {
 
     try {
         //pribavljaju se samo potrebna polja korisnika za zadatim userId
-        const user = await User.findById(userId, { _id: 0, name: 1, surname: 1, email: 1, picture: 1, address: 1});
+        const user = await User.findById(userId, { _id: 0, name: 1, surname: 1, email: 1, picture: 1, address: 1, city: 1, phoneNumber: 1});
     
         if(!user){
             res.status(404).send({message: 'User not found'});
@@ -217,6 +224,8 @@ router.post("/register", async (req,res)=>{
             email: req.body.email,
             password: hPassword,
             address: req.body.address,
+            city: null,
+            phoneNumber: null,
             picture: null
         });
 

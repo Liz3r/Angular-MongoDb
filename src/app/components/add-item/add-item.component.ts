@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { environment } from 'src/environments/environment';
 
@@ -20,7 +21,8 @@ export class AddItemComponent implements OnInit{
 
   
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ){}
   
   ngOnInit(): void {
@@ -30,7 +32,6 @@ export class AddItemComponent implements OnInit{
       state: new FormControl<String>('new'),
       price: new FormControl<String>(''),
       description: new FormControl<String>(''),
-      phoneNumber: new FormControl<String>(''),
       itemPicture: new FormControl(null)
     });
   }
@@ -58,7 +59,7 @@ export class AddItemComponent implements OnInit{
       reader.onload = () =>{
         this.pictureData = reader.result as String;
       }
-
+      console.log(this.file.name);
       reader.readAsDataURL(this.file);
     }else{
 
@@ -80,12 +81,12 @@ export class AddItemComponent implements OnInit{
     data.append('state', this.form.value.state);
     data.append('description', this.form.value.description);
     data.append('price', this.form.value.price);
-    data.append('phoneNumber', this.form.value.phoneNumber);
     data.append('itemPicture', this.form.value.itemPicture, this.form.value.itemPicture.name);
 
     this.http.put(`${environment.apiUrl}/postItem`, data, { withCredentials: true})
     .subscribe(res=>{
       console.log(res);
+      this.router.navigate(['/my-products']);
     });
   }
   

@@ -24,10 +24,17 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-
+        city: {
+            type: String,
+            required: false
+        },
+        phoneNumber: {
+            type: Number,
+            required: false
+        },
         picture: {
-             data: Buffer,
-             type: String
+             type: String,
+             required: false
          }
     }
 )

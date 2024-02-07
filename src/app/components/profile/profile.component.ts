@@ -38,6 +38,8 @@ export class ProfileComponent implements OnInit{
       name: new FormControl<String>(''),
       surname: new FormControl<String>(''),
       address: new FormControl<String>(''),
+      city: new FormControl<String>(''),
+      phoneNumber: new FormControl<Number>(0),
       picture: new FormControl(null)
   });
 
@@ -53,6 +55,8 @@ export class ProfileComponent implements OnInit{
       this.form.patchValue({name: res.name});
       this.form.patchValue({surname: res.surname});
       this.form.patchValue({address: res.address});
+      this.form.patchValue({city: res.city});
+      this.form.patchValue({phoneNumber: res.phoneNumber});
       if(res.picture){
         this.pictureData = res.picture;
       }else{
@@ -106,7 +110,10 @@ export class ProfileComponent implements OnInit{
     data.append('surname', this.form.value.surname);
     data.append('email', this.form.value.email);
     data.append('address', this.form.value.address);
-    data.append('picture', this.form.value.picture, this.form.value.picture.name);
+    data.append('city', this.form.value.city);
+    data.append('phoneNumber', this.form.value.phoneNumber);
+    if(this.form.value.picture)
+      data.append('picture', this.form.value.picture, this.form.value.picture.name);
 
     this.http.post(`${environment.apiUrl}/updateUserProfile`, data, { withCredentials: true})
     .subscribe(res=>{

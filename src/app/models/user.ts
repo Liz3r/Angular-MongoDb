@@ -3,5 +3,7 @@ export interface User{
     surname: String,
     email: String,
     address: String,
+    city: String,
+    phoneNumber: Number,
     picture: String
 }

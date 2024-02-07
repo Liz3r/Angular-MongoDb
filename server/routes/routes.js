@@ -108,7 +108,8 @@ router.post("/updateUserProfile", verifyToken, upload.single('picture'), async (
         req.body.name === '' ||
         req.body.surname === '' ||
         req.body.address === '' ||
-        req.body.city){
+        req.body.city === '' ||
+        req.body.phoneNumber == null){
             res.status(400).send({message: 'Invalid input'});
             return;
         }

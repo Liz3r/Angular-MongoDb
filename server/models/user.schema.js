@@ -15,7 +15,6 @@ const UserSchema = new mongoose.Schema(
             required: true,
             unique: true
         },
-        
         password: {
             type: String,
             required: true
@@ -35,7 +34,11 @@ const UserSchema = new mongoose.Schema(
         picture: {
              type: String,
              required: false
-         }
+        },
+        following: [{
+            type: mongoose.Schema.Types.ObjectId,
+            required: false
+        }]
     }
 )
 

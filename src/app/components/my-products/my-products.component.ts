@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class MyProductsComponent implements OnInit{
 
-  products!: Observable<Product[]>;
+  products$!: Observable<Product[]>;
 
   constructor(
     private router: Router,
@@ -22,11 +22,12 @@ export class MyProductsComponent implements OnInit{
   }
   ngOnInit(): void { 
     
-    this.products = this.http.get<Product[]>(`${environment.apiUrl}/getItems`, { withCredentials: true});
+    this.products$ = this.http.get<Product[]>(`${environment.apiUrl}/getItems`, { withCredentials: true});
     
   }
 
   addItemPage(){
     this.router.navigate(["/add-item"]);
   }
+
 }

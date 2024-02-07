@@ -29,8 +29,56 @@ const upload = multer({storage: storage, filter: tipoviFilter});
 
 //--------------------------------------------------------------------------------------
 
-router.get("/getItemDetails", verifyToken, async (req,res) => {
+function generateDateMessage(datePosted){
 
+    const diff = Math.abs(new Date() - datePosted);
+
+    if(diff < 60*1000) //jedan minut
+        return 'Just now';
+    
+    if(diff < 60*60*1000) //jedan sat
+        return `${Math.floor(diff/(60*1000))} minutes ago`;
+
+    if(diff < 24*60*60*1000) //jedan dan
+        return `${Math.floor(diff/(60*60*1000))} hours ago`;
+
+    return `${Math.floor(diff/(24*60*60*1000))} days ago`;
+}
+
+router.get("/getItemDetails/:itemId", verifyToken, async (req,res) => {
+    const itemId = req.params.itemId;
+
+    const item = await Product.findById(itemId).populate('owner');
+
+    console.log(item);
+
+    if(!item){
+        res.status(404).send({message: 'item not found'});
+        return;
+    }
+
+    const dateMessage = generateDateMessage(item.datePosted);
+
+    const retObject = {
+        title: item.title,
+        description: item.description,
+        datePosted: item.datePosted,
+        price: item.price,
+        currency: item.currency,
+        state: item.state,
+        picture: item.picture,
+
+        dateMessage: dateMessage,
+
+        userName: item.owner.name,
+        userSurname: item.owner.surname,
+        userEmail: item.owner.email,
+        userCity: item.owner.city,
+        userAddress: item.owner.address,
+        userPhone: item.owner.phoneNumber
+    };
+
+    res.status(200).send(retObject);
 })
 
 router.get("/getItems", verifyToken, async (req,res) => {
@@ -50,8 +98,6 @@ router.get("/getItems", verifyToken, async (req,res) => {
 //     };
 //     return mappedProd;
 // });
-
-    console.log(products[0]);
 
     res.status(200).send(products);
 })

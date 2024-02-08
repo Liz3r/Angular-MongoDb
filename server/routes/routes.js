@@ -29,6 +29,17 @@ const upload = multer({storage: storage, filter: tipoviFilter});
 
 //--------------------------------------------------------------------------------------
 
+router.put("/follow", verifyToken, async (req,res) => {
+    const userId = req.userId;
+    const itemId = req.body.itemId;
+
+    await User.updateOne({_id: userId}, { $push: { following: itemId }});
+
+
+    res.status(200).send({message: 'success'});
+})
+
+
 function generateDateMessage(datePosted){
 
     const diff = Math.abs(new Date() - datePosted);
@@ -46,17 +57,19 @@ function generateDateMessage(datePosted){
 }
 
 router.get("/getItemDetails/:itemId", verifyToken, async (req,res) => {
+    const userId = req.userId;
     const itemId = req.params.itemId;
 
     const item = await Product.findById(itemId).populate('owner');
 
-    console.log(item);
 
     if(!item){
         res.status(404).send({message: 'item not found'});
         return;
     }
 
+    const following = item.owner.following.includes(itemId);
+    
     const dateMessage = generateDateMessage(item.datePosted);
 
     const retObject = {
@@ -75,7 +88,8 @@ router.get("/getItemDetails/:itemId", verifyToken, async (req,res) => {
         userEmail: item.owner.email,
         userCity: item.owner.city,
         userAddress: item.owner.address,
-        userPhone: item.owner.phoneNumber
+        userPhone: item.owner.phoneNumber,
+        following: following
     };
 
     res.status(200).send(retObject);

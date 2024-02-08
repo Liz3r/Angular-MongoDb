@@ -124,3 +124,8 @@
 .btn:hover{
     background-color: rgb(40, 214, 50);
 }
+
+.btn:disabled{
+    background-color: #D0D7DE;
+    color: #666666;
+}

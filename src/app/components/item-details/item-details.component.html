@@ -32,6 +32,6 @@
 
     <div class="buttons-div">
         <button class="btn" (click)="back()">Back</button>
-        <button class="btn">Follow this item</button>
+        <button class="btn" [disabled]="following" (click)="follow()">Follow this item</button>
     </div>
 </div>

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { catchError, of } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
 
@@ -21,7 +22,8 @@ interface recvType {
   userEmail: String,
   userCity: String,
   userAddress: String,
-  userPhone: Number
+  userPhone: Number,
+  following: Boolean
 };
 
 @Component({
@@ -46,6 +48,8 @@ export class ItemDetailsComponent implements OnInit{
   datePosted!: String;
   dateMessage!: String;
 
+  following!: Boolean;
+
   constructor( 
     private router: Router,
     private http: HttpClient
@@ -68,10 +72,22 @@ export class ItemDetailsComponent implements OnInit{
       this.dateMessage = res.dateMessage;
       this.picture = res.picture;
       this.datePosted = (new Date(res.datePosted)).toLocaleDateString();
+      this.following = res.following;
     });
   }
 
-  back():void{
+  follow(): void{
+    this.http.put(`${environment.apiUrl}/follow`, {itemId: this.id.itemId}, {withCredentials: true})
+    .pipe(catchError((err,obs) => {console.log(err); return obs;}))
+    .subscribe(res=>{
+      console.log(res);
+      if(res){
+        this.following = true;
+      }
+    });
+  }
+
+  back(): void{
     if(typeof(this.id.prev) === 'string')
       this.router.navigate([this.id.prev]);
   }

@@ -44,4 +44,8 @@ export class HeadComponent implements OnInit{
   myProducts():void{
     this.router.navigate(['/my-products']);
   }
+
+  following():void{
+    this.router.navigate(['/following']);
+  }
 }

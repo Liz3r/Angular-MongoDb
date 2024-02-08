@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit{
       address: ''
     });
     this.errorMsg = '';
-    this.emailRegex = /[a-zA-Z]+@[a-z]+\.[a-z]+/;
+    this.emailRegex = /[a-zA-Z0-9]+@[a-z]+\.[a-z]+/;
   }
 
   submit(): void{

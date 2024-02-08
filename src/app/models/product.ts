@@ -6,5 +6,6 @@ export interface Product{
     price: Number,
     currency: String,
     state: String,
-    picture: String
+    picture: String,
+    dateMessage?: String
 }

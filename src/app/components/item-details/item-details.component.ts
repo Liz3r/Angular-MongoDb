@@ -47,6 +47,7 @@ export class ItemDetailsComponent implements OnInit{
   description!: String;
   datePosted!: String;
   dateMessage!: String;
+  state!: String;
 
   following!: Boolean;
 
@@ -67,12 +68,13 @@ export class ItemDetailsComponent implements OnInit{
       this.email = res.userEmail;
       this.phone = res.userPhone;
       this.title = res.title;
-      this.price = '' + res.price + res.currency;
+      this.price = '' + res.price + " " + res.currency;
       this.description = res.description;
       this.dateMessage = res.dateMessage;
       this.picture = res.picture;
       this.datePosted = (new Date(res.datePosted)).toLocaleDateString();
       this.following = res.following;
+      this.state = res.state;
     });
   }
 

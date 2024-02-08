@@ -22,7 +22,7 @@ export class MyProductsComponent implements OnInit{
   }
   ngOnInit(): void { 
     
-    this.products$ = this.http.get<Product[]>(`${environment.apiUrl}/getItems`, { withCredentials: true});
+    this.products$ = this.http.get<Product[]>(`${environment.apiUrl}/getItemsByUser`, { withCredentials: true});
     
   }
 

@@ -1,18 +1,17 @@
-<div class="container" (click)="itemDetailsPage()">
-    <div class="row padding5">
-        <div class="col-md-3">
-            <img [src]="product.picture">
-        </div>
+<div class="item-container" (click)="itemDetailsPage()">
 
-        <div class="col-md-4 naslov-opis">
+        <img [src]="product.picture">
+
+        <div class="naslov-container">
             <a>{{product.title}}</a>
             <p class="opis text-secondary">{{product.description}}</p>
+            <p class="opis text-secondary">{{product.dateMessage}}</p>
         </div>
 
-        <div class="col-md-2">
+        <div class="">
             <b class="cena">{{product.price + " " + product.currency}}</b>
         </div>
-        <div class="col-md-3">
+
+        <div class="">
         </div>
-    </div>
 </div>

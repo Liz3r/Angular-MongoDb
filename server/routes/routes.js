@@ -50,7 +50,7 @@ router.get("/getFollowedItems", verifyToken, async (req,res) => {
     }
 })
 
-router.get("/getFollowedItemsSearch/:search", verifyToken, async (req,res) => {
+router.get("/getFollowedItemsSearch/:search?", verifyToken, async (req,res) => {
     const userId = req.userId;
     const searchInput = req.params.search;
 
@@ -64,26 +64,30 @@ router.get("/getFollowedItemsSearch/:search", verifyToken, async (req,res) => {
             
             itemList = (await User.aggregate([
                 {$match: {_id: new mongoose.Types.ObjectId(userId)}}, //prvi pipeline pribavlja korisnika pomocu id-ja
-                {$lookup: { from: 'products', localField: 'following', foreignField: '_id', as: 'following'}},
-                {$unwind: '$following'},
-                {$match: {'following.title': {$regex: searchInput}}},
-                {$project: {'following': 1}}
+                {$lookup: { from: 'products', localField: 'following', foreignField: '_id', as: 'following'}}, //populate po id-u poduct-a u listu following korisnika
+                {$unwind: '$following'}, //unwinduju se proizvodi da bi se radila pretraga
+                {$match: {'following.title': {$regex: searchInput}}}, //pretraga
+                {$project: {'following': 1}} // prikazuje se samo atribut following (i _id)
             ]))
             .map(usr => usr.following);
 
-            console.log(itemList);
+            //console.log(itemList);
         }
         else{
-            itemList = (await User.findById(userId).select('following').populate('following').exec()).following;
-            console.log(itemList);
+            itemList = (await User.aggregate([
+                {$match: {_id: new mongoose.Types.ObjectId(userId)}},
+                {$lookup: { from: 'products', localField: 'following', foreignField: '_id', as: 'following'}},
+                {$unwind: '$following'},
+                {$project: {'following': 1}} 
+            ]))
+            .map(usr => usr.following);
+            
         }
             
 
         const items = itemList.map(prod => { return {...prod, dateMessage: generateDateMessage(prod.datePosted)} });
         // console.log(items);
-        if(!items.length){
-            res.status(200).send({})
-        }
+        
 
         res.status(200).send(items);
 
@@ -140,19 +144,19 @@ function generateDateMessage(datePosted){
 
     if(diff < 60*1000) //jedan minut
         return 'Just now';
-    
+        
     if(diff < 60*60*1000){ //jedan sat
         let num = Math.floor(diff/(60*1000));
-        return (num == 1)? num + ' minute ago' : num + 'minutes ago';
+        return (num == 1)? num + ' minute ago' : num + ' minutes ago';
     }
 
     if(diff < 24*60*60*1000){ //jedan dan
         let num = Math.floor(diff/(60*60*1000));
-        return (num == 1)? num + ' hour ago' : num + 'hours ago';
+        return (num == 1)? num + ' hour ago' : num + ' hours ago';
     }
 
     let num = Math.floor(diff/(24*60*60*1000));
-    return (num == 1)? num + ' day ago' : num + 'days ago';
+    return (num == 1)? num + ' day ago' : num + ' days ago';
 }
 
 router.get("/getItemDetails/:itemId", verifyToken, async (req,res) => {
@@ -466,8 +470,5 @@ function verifyToken(req, res, next) {
         res.status(401).send({ error: 'Invalid token' });
     }
 };
-
-
-
 
 module.exports = router;

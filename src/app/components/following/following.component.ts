@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject, Subscriber, debounce, debounceTime, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscriber, debounce, debounceTime, switchMap } from 'rxjs';
 import { Product } from 'src/app/models/product';
 import { environment } from 'src/environments/environment';
 
@@ -12,8 +12,9 @@ import { environment } from 'src/environments/environment';
 })
 export class FollowingComponent implements OnInit, OnDestroy{
 
-  products$!: Observable<Product[]>;
-  searchInput$: Subject<String>;
+  products$!: Observable<any>;
+  searchResult$!: Observable<Product[]>;
+  searchInput$ = new BehaviorSubject<String>('');
   subscription!: any;
 
 
@@ -22,7 +23,7 @@ export class FollowingComponent implements OnInit, OnDestroy{
     private router: Router,
     private http: HttpClient
   ){
-    this.searchInput$ = new Subject<String>();
+    
   }
 
   onInputChange(e:any):void{
@@ -31,21 +32,16 @@ export class FollowingComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void { 
     
-    this.products$ = this.http.get<Product[]>(`${environment.apiUrl}/getFollowedItems`, { withCredentials: true});
-    
-    this.subscription = this.searchInput$
+
+    this.searchResult$ = this.searchInput$
     .pipe(
       debounceTime(500),
       switchMap((search) => {
-        return this.products$ = this.http.get<Product[]>(`${environment.apiUrl}/getFollowedItemsSearch/${search}`, {withCredentials: true});
-      }))
-    .subscribe(res => {
-      if(res)
-        console.log(res);
-    })
+        console.log(search == '');
+          return this.http.get<Product[]>(`${environment.apiUrl}/getFollowedItemsSearch/${search}`, {withCredentials: true});
+      }));
   }
 
   ngOnDestroy(): void{
-    this.subscription.unsubscribe();
   }
 }

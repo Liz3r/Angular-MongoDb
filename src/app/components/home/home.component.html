@@ -1,2 +1,13 @@
 <app-head></app-head>
-<app-home-body></app-home-body>
+
+
+    <div class="search-div">
+        <input [(ngModel)]="inputVal" class="search-input" placeholder="Search"/>
+        <button (click)="onSearch()" class="search-btn">
+            <fa-icon class="xl" [icon]="searchIcon"></fa-icon>
+        </button>
+    </div>
+    
+    <div *ngFor="let product of searchResult$ | async" class="items-div">
+        <app-product [product]="product" [prev]="'following'"></app-product>
+    </div>

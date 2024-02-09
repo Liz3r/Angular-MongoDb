@@ -5,13 +5,15 @@
         <div class="naslov-container">
             <a>{{product.title}}</a>
             <p class="opis text-secondary">{{product.description}}</p>
-            <p class="opis text-secondary">{{product.dateMessage}}</p>
         </div>
 
-        <div class="">
-            <b class="cena">{{product.price + " " + product.currency}}</b>
+        <div class="cena-div">
+            <b class="cena">{{priceToString()}}</b>
         </div>
 
-        <div class="">
+        <div class="posted-div">
+            <span class="text-secondary">{{product.dateMessage}}</span>
         </div>
+
+        <div class="delete-btn" *ngIf="this.current==='/my-products'">delete</div>
 </div>

@@ -15,7 +15,6 @@ export class FollowingComponent implements OnInit, OnDestroy{
   products$!: Observable<any>;
   searchResult$!: Observable<Product[]>;
   searchInput$ = new BehaviorSubject<String>('');
-  subscription!: any;
 
 
 

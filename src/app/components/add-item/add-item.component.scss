@@ -9,8 +9,9 @@
     width: 80vw;
     min-height: 500px;
 
-    border: 1px solid #D0D7DE;
-    border-radius: 15px;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px black; 
 }
 
 .hidden{
@@ -72,6 +73,7 @@ img{
 .info-div{
     display: flex;
     flex-direction: column;
+    flex: 1;
     align-items: start;
     margin-right: auto;
 
@@ -103,12 +105,24 @@ span{
 
 textarea{
     height: 150px;
-    width: 550px;
     resize: none;
+    min-width: 100px;
+    max-width: 600px;
+}
+
+input{
+    max-width: 300px;
+    width: 80%;
+    min-width: 50px;
 }
 
 .price-div, .state-div{
     display: flex;
     flex-direction: row;
+    width: fit-content;
     gap: 7px;
+}
+
+.description-div,.title-div{
+    width: 100%;
 }

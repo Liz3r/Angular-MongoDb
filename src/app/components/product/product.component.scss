@@ -1,39 +1,68 @@
 img{
     width: 130px;
     height: 120px;
-    border: 3px solid #D0D7DE;
-    border-radius: 5px;
+    border: 1px solid #E0E7EF;
 }
 
 div.item-container{
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 20px;
+    padding: 8px;
 
-    background-color: white;
+
+    background-color: white;/*
     border: 1px rgb(187, 182, 182) solid;
     border-radius: 4px;
+*/
+    border: 1px solid #D0D7DE;
+    border-radius: 3px;
+
+
 
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
 
     width: 800px;
-    height: 160px;
+    height: fit-content;
     
 }
+
 
 .naslov-container{
     display: flex;
     flex-direction: column;
-    flex: 1;
-    align-items: center;
+    align-items: start;
 
-    margin-left: 50px;
-    margin-right: 50px;
+    width: 200px;
+    height: 120px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
+.cena-div{
+    width: 200px;
+    height: 120px;
+}
+
+.delete-btn{
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    background-color: rgba(255, 0, 0, 0.479);
+    height: 120px;
+
+}
+
+.posted-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 130px;
+    height: 120px;
+    color: #6C757D;
+}
 
 .text-secondary{
     line-height: 15px;

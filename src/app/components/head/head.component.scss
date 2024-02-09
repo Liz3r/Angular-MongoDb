@@ -1,7 +1,7 @@
 div.head-container{
     height: auto;
     background-color: #F6F8FA;
-    box-shadow: 0px 2px 2px gray;
+    border-bottom: 1px solid black;
     width: 100vw;
 }
 
@@ -13,13 +13,19 @@ div.row{
     height: 100%;
 }
 
+.selected{
+    background-color: #51d863;
+}
+
 .btn-primary{
     background-color: rgb(60, 214, 80);
     border-color: rgb(60, 214, 80);
+    border: 1px solid black;
 }
 .btn-primary:active{
     background-color: rgb(49, 168, 109);
     border-color: rgb(49, 168, 109);
+    border: 1px solid black;
 }
 
 div.header-btn{
@@ -37,7 +43,7 @@ div.header-btn{
 
 div.header-btn:hover{
     color: white;
-    background-color: rgb(60, 214, 137);
+    background-color: #51d863;
 }
 
 div.upper-header-container{

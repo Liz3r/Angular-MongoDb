@@ -5,10 +5,14 @@ div.profile-container{
     min-width: 850px;
     max-width: fit-content;
     min-height: 800px;
-    max-height: fit-content;
+    max-height: fit-content;/*
     border: 1px solid #D0D7DE;
-    border-radius: 25px;
+    border-radius: 25px;*/
     padding: 30px;
+
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px black; 
 }
 
 div.separator-div{

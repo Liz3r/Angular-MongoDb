@@ -24,6 +24,8 @@ export class HeadComponent implements OnInit{
     this.checkCookie.cookie();
   }
 
+  
+
   logout():void {
     this.http.post(`${environment.apiUrl}/logout`, {}, { withCredentials: true })
     .subscribe(res => {

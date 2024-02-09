@@ -31,18 +31,21 @@ const upload = multer({storage: storage, filter: tipoviFilter});
 
 //--------------------------------------------------------------------------------------
 
-router.get("/getFollowedItems", verifyToken, async (req,res) => {
-    const userId = req.userId;
-
+router.get("/searchAllItems/:search?", verifyToken, async (req,res) => {
     try {
         
-        const user = await User.findById(userId).select('following').populate('following').exec();
+        const searchInput = req.params.search;
+        var itemList;
 
-        if(user.matchedCount == 0){
-            res.status(404).send({message: 'user not found'});
+        if(searchInput && searchInput != ''){
+            itemList = (await Product.find({$text: { $search: searchInput, $caseSensitive: false}})); //indeksiranje postoji samo za polje 'title' 
         }
-
-        const items = user.following.map(prod => { return {...prod._doc, dateMessage: generateDateMessage(prod.datePosted)} });
+        else{
+            itemList = (await Product.find({}));
+        }
+            
+        const items = itemList.map(prod => { return {...prod._doc, dateMessage: generateDateMessage(prod.datePosted)} });
+    
         res.status(200).send(items);
 
     } catch (error) {
@@ -55,12 +58,9 @@ router.get("/getFollowedItemsSearch/:search?", verifyToken, async (req,res) => {
     const searchInput = req.params.search;
 
     try {
-        var user;
         var itemList;
 
         if(searchInput && searchInput != ''){
-            const regexp = new RegExp(searchInput);
-            //user = await User.findById(userId).select('following').populate('following');
             
             itemList = (await User.aggregate([
                 {$match: {_id: new mongoose.Types.ObjectId(userId)}}, //prvi pipeline pribavlja korisnika pomocu id-ja
@@ -70,8 +70,6 @@ router.get("/getFollowedItemsSearch/:search?", verifyToken, async (req,res) => {
                 {$project: {'following': 1}} // prikazuje se samo atribut following (i _id)
             ]))
             .map(usr => usr.following);
-
-            //console.log(itemList);
         }
         else{
             itemList = (await User.aggregate([
@@ -81,14 +79,10 @@ router.get("/getFollowedItemsSearch/:search?", verifyToken, async (req,res) => {
                 {$project: {'following': 1}} 
             ]))
             .map(usr => usr.following);
-            
         }
             
-
         const items = itemList.map(prod => { return {...prod, dateMessage: generateDateMessage(prod.datePosted)} });
-        // console.log(items);
-        
-
+    
         res.status(200).send(items);
 
     } catch (error) {
@@ -144,7 +138,7 @@ function generateDateMessage(datePosted){
 
     if(diff < 60*1000) //jedan minut
         return 'Just now';
-        
+
     if(diff < 60*60*1000){ //jedan sat
         let num = Math.floor(diff/(60*1000));
         return (num == 1)? num + ' minute ago' : num + ' minutes ago';

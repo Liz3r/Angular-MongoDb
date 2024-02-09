@@ -38,6 +38,10 @@ export class RegisterComponent implements OnInit{
     this.emailRegex = /[a-zA-Z0-9]+@[a-z]+\.[a-z]+/;
   }
 
+  goToLogin():void{
+    this.router.navigate(['/login']);
+  }
+
   submit(): void{
     const values = this.form.getRawValue();
     if(values.name.length === 0 ||

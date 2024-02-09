@@ -1,5 +1,8 @@
-<div class="item-container" (click)="itemDetailsPage()">
 
+<div class="item-container">
+
+    <div class="item-container-inner" (click)="itemDetailsPage()">
+        
         <img [src]="product.picture">
 
         <div class="naslov-container">
@@ -15,5 +18,16 @@
             <span class="text-secondary">{{product.dateMessage}}</span>
         </div>
 
-        <div class="delete-btn" *ngIf="this.current==='/my-products'">delete</div>
+    </div>
+    
+
+    <div class="delete-div" *ngIf="this.current==='/my-products'">
+        <button *ngIf="!confirmDel" (click)="confirmDel = true" class="delete-btn">Delete</button>
+        <div class="btns-div" *ngIf="confirmDel">
+            <span class="q">Are you sure?</span>
+            <button (click)="confirmDel = false" class="no">No</button>
+            <button (click)="deleteItem()" class="yes">Yes</button>
+        </div>
+    </div>
+
 </div>

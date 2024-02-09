@@ -16,11 +16,17 @@ export class ProductComponent {
 
   current!: any;
 
+  confirmDel = false;
+
   constructor(
     private router: Router,
     private location: Location
   ) { 
     this.current = location.path();
+  }
+
+  deleteItem():void{
+    //implementiraj
   }
 
   priceToString(): String{

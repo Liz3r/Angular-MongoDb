@@ -77,6 +77,11 @@ img{
     align-items: start;
     margin-right: auto;
 
+    
+    min-width: 150px;
+    width: 100%;
+    max-width: 600px;
+
     row-gap: 20px;
 }
 
@@ -97,6 +102,7 @@ label{
     display: flex;
     flex-direction: row;
     align-items: center;
+    width: fit-content;
 }
 
 span{
@@ -106,14 +112,14 @@ span{
 textarea{
     height: 150px;
     resize: none;
-    min-width: 100px;
+    min-width: 150px;
+    width: 90%;
     max-width: 600px;
 }
 
-input{
-    max-width: 300px;
-    width: 80%;
-    min-width: 50px;
+.state-div{
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .price-div, .state-div{
@@ -121,8 +127,18 @@ input{
     flex-direction: row;
     width: fit-content;
     gap: 7px;
+
+    
+    min-width: 150px;
+    width: 90%;
+    max-width: 600px;
 }
 
 .description-div,.title-div{
-    width: 100%;
+    width: 90%;
+}
+
+.title-div{
+    min-width: 150px;
+    max-width: 400px;
 }

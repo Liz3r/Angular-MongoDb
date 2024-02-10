@@ -5,8 +5,8 @@ const User = require('../models/user.schema');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const cookieParser = require("cookie-parser");
-const ObjectId = require('mongodb');
-const { default: mongoose } = require('mongoose');
+const { default: mongoose, mongo } = require('mongoose');
+const fs = require('fs');
 
 
 const storage = multer.diskStorage({
@@ -30,6 +30,30 @@ const upload = multer({storage: storage, filter: tipoviFilter});
 
 
 //--------------------------------------------------------------------------------------
+
+router.delete("/deleteItem/:itemId", verifyToken, async (req,res) => {
+    
+    const itemId = req.params.itemId;
+
+    try {
+        const itemIdObject = new mongoose.mongo.ObjectId(itemId);
+        //brise sve following veze 
+        const users = await User.updateMany({following: itemIdObject},{ $pull: {following: itemIdObject}});
+
+        const item = await Product.findById(itemId,{picture: 1});
+
+        await fs.rm(item.picture, () => {console.log('picture removed')});
+        const del = await Product.deleteOne({_id: itemIdObject});
+
+        if(!del.acknowledged){
+            res.status(400).send({message: `0 items deleted, ${users.modifiedCount} followings removed`});
+        }
+        res.status(200).send({message: `1 item deleted, ${users.modifiedCount} followings removed`});
+    } catch (error) {
+        res.status(500).send({message: error.message})
+    }
+
+})
 
 router.get("/searchAllItems/:search?", verifyToken, async (req,res) => {
     try {

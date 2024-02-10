@@ -6,8 +6,8 @@
         <img [src]="product.picture">
 
         <div class="naslov-container">
-            <a>{{product.title}}</a>
-            <p class="opis text-secondary">{{product.description}}</p>
+            <a>{{fixTitle(product.title)}}</a>
+            <p class="opis text-secondary">{{fixDescription(product.description)}}</p>
         </div>
 
         <div class="cena-div">

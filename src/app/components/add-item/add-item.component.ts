@@ -75,6 +75,15 @@ export class AddItemComponent implements OnInit{
   submit(){
     const data = new FormData();
 
+    if(this.form.value.title.length > 40){
+      this.errMsg = 'Title too long';
+      return;
+    }
+    if(this.form.value.description.length > 1000){
+      this.errMsg = 'Description too long';
+      return;
+    }
+    
 
     data.append('title', this.form.value.title);
     data.append('currency', this.form.value.currency);

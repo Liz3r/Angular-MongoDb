@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, from, map, of, switchMap, take } from 'rxjs';
+import { Observable, filter, from, map, of, switchMap, take } from 'rxjs';
 import { Product } from 'src/app/models/product';
 import { environment } from 'src/environments/environment';
 
@@ -20,6 +20,11 @@ export class MyProductsComponent implements OnInit{
   ){
 
   }
+
+  deleted = () =>{
+    this.products$ = this.http.get<Product[]>(`${environment.apiUrl}/getItemsByUser`, { withCredentials: true});
+  }
+
   ngOnInit(): void { 
     
     this.products$ = this.http.get<Product[]>(`${environment.apiUrl}/getItemsByUser`, { withCredentials: true});

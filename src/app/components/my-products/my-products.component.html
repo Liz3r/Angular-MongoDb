@@ -8,5 +8,5 @@
 </div>
 
 <div *ngFor="let product of products$ | async" class="items-div">
-    <app-product [product]="product" [prev]="'my-products'"></app-product>
+    <app-product [product]="product" [deleted]="deleted" [prev]="'my-products'"></app-product>
 </div>

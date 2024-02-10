@@ -7,5 +7,6 @@ export interface Product{
     currency: String,
     state: String,
     picture: String,
-    dateMessage?: String
+    dateMessage?: String,
+    deleted?: Boolean
 }

@@ -81,6 +81,11 @@ div.item-container{
     margin-right: 10px;
 }
 
+a,p{
+    display: inline-block;
+    overflow-wrap: anywhere;
+}
+
 .cena-div{
     width: 200px;
     height: 120px;

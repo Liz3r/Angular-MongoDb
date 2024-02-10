@@ -25,7 +25,11 @@ div.item-container{
 
     width: 850px;
     height: fit-content;
-    
+    cursor: pointer;
+}
+
+div.item-container:hover{
+    outline: 2px solid rgba(128, 128, 128, 0.445);
 }
 
 .item-container-inner{

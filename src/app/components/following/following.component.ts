@@ -16,8 +16,6 @@ export class FollowingComponent implements OnInit, OnDestroy{
   searchResult$!: Observable<Product[]>;
   searchInput$ = new BehaviorSubject<String>('');
 
-
-
   constructor(
     private router: Router,
     private http: HttpClient
@@ -30,13 +28,10 @@ export class FollowingComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void { 
-    
-
     this.searchResult$ = this.searchInput$
     .pipe(
       debounceTime(500),
       switchMap((search) => {
-        console.log(search == '');
           return this.http.get<Product[]>(`${environment.apiUrl}/getFollowedItemsSearch/${search}`, {withCredentials: true});
       }));
   }

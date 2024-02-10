@@ -55,16 +55,16 @@
     <form [formGroup]="passwordForm">
         <div class="form-group">
             <label>Old password</label>
-            <input class="form-control profile-inputs" formControlName="password">
+            <input class="form-control profile-inputs" type="password" formControlName="password">
         </div>
         <div class="display-row">
             <div class="form-group">
                 <label>New password</label>
-                <input class="form-control profile-inputs" formControlName="newPassword">
+                <input class="form-control profile-inputs" type="password" formControlName="newPassword">
             </div>
             <div class="form-group">
                 <label>Repeat new password</label>
-                <input class="form-control profile-inputs" formControlName="newPasswordRepeat">
+                <input class="form-control profile-inputs" type="password" formControlName="newPasswordRepeat">
             </div>
         </div>
     </form>

@@ -109,7 +109,9 @@ router.get("/searchItemsByUser/:search?", verifyToken, async (req,res) => {
             if(items.matchedCount == 0){
                 res.status(404).send({message: 'no items found'});
             }
-            res.status(200).send(items);
+            const retProducts = items.map(prod => { return {...prod._doc, dateMessage: generateDateMessage(prod.datePosted)} });
+
+            res.status(200).send(retProducts);
         }else{
 
             const products = await Product.find({owner: new mongoose.mongo.ObjectId(userId)});

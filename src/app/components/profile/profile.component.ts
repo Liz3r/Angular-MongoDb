@@ -26,6 +26,9 @@ export class ProfileComponent implements OnInit{
   profileChangesErr: String = '';
   changePasswordErr: String = '';
 
+
+  changeSuccessMsg: String = '';
+
   constructor(
     private http: HttpClient
   ){

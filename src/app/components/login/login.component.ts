@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 
@@ -52,7 +53,18 @@ export class LoginComponent implements OnInit{
       return;
     }
     this.http.post(`${environment.apiUrl}/login`,value, { withCredentials: true })
+    .pipe(catchError((err,c) => {
+      console.log("cccc");
+      if(err.status == 404){
+        this.errorMsg = 'Invalid username';
+      }
+      if(err.status == 401){
+        this.errorMsg = 'Invalid password';
+      }
+      return of(false);
+    }))
     .subscribe((res)=>{
+      if(res)
         this.router.navigate(['/home'])
     });
 

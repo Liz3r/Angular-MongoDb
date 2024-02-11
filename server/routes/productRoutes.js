@@ -100,7 +100,6 @@ router.get("/searchItemsByUser/:search?", verifyToken, async (req,res) => {
     const searchInput = req.params.search;
 
     try {
-        console.log(searchInput);
         if(searchInput && searchInput != ''){
         
             const regexp = new RegExp(searchInput,"i");
@@ -118,7 +117,7 @@ router.get("/searchItemsByUser/:search?", verifyToken, async (req,res) => {
         
             const retProducts = products.map(prod => { return {...prod._doc, dateMessage: generateDateMessage(prod.datePosted)} });
 
-            console.log(retProducts);
+            
             res.status(200).send(retProducts);
         }
 

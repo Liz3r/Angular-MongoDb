@@ -1,31 +1,27 @@
 form.register-form{
     width: 600px;
-
     padding: 40px;
-
     border: 1px solid black;
     border-radius: 10px;
     box-shadow: 5px 5px 5px black;
+}
 
-    
+div.single-row{
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    column-gap: 10px;
 }
 
 div.register-container{
     width: 100%;
     height: 100vh;
     background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 button{
     margin-top: 30px;
-    width: 100%;
-}
-
-.btn-primary{
-    background-color: #F7A400;
-    border-color: #F7A400;
-}
-.btn-primary:active{
-    background-color: #F38701;
-    border-color: #F38701;
 }

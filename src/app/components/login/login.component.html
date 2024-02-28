@@ -1,6 +1,6 @@
-<div class="login-container d-flex justify-content-center align-items-center">
+<div class="login-container">
     <div [formGroup]="form" class="login-form">
-        <h1>Login</h1>
+        <h1 class="form-title">Login</h1>
         <div class="form-group">
             <label for="email">Username</label>
             <input class="form-control" formControlName="email" type="text" name="email">
@@ -10,7 +10,7 @@
             <input class="form-control" formControlName="password" type="password" name="password">
         </div>
         <div class="error-msg">{{errorMsg}}</div>
-        <button (click)="login()" class="btn btn-green wide">Login</button>
-        <a (click)="goToRegister()" class="d-flex justify-content-center align-items-center">click here to crate account</a>
+        <button (click)="login()" class="btn btn-green wide login-btn">Login</button>
+        <a (click)="goToRegister()" class="logreg">click here to crate account</a>
     </div>
 </div>

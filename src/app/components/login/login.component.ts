@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -14,11 +14,10 @@ import { environment } from 'src/environments/environment';
 export class LoginComponent implements OnInit{
 
   form!: FormGroup;
-  errorMsg!: string;
-  emailRegex!: RegExp;
+  errorMsg = '';
+  emailRegex = /[a-zA-Z1-9]+@[a-z]+\.[a-z]+/;
 
   constructor(
-    private formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router
   )
@@ -29,12 +28,10 @@ export class LoginComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.form = this.formBuilder.group({
-      email: '',
-      password: ''
-    })
-    this.errorMsg = '';
-    this.emailRegex = /[a-zA-Z1-9]+@[a-z]+\.[a-z]+/;
+    this.form = new FormGroup({
+      email: new FormControl(''),
+      password: new FormControl('')
+    }, [Validators.required])
     
   }
 

@@ -16,10 +16,6 @@ div.register-container{
     background-color: white;
 }
 
-label{
-    margin-top: 20px;
-}
-
 button{
     margin-top: 30px;
     width: 100%;
@@ -32,12 +28,4 @@ button{
 .btn-primary:active{
     background-color: #F38701;
     border-color: #F38701;
-}
-a{
-    cursor: pointer;
-}
-
-div.msg{
-    color: red;
-    height: 30px;
 }

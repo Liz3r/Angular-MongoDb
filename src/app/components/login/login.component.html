@@ -3,14 +3,14 @@
         <h1>Login</h1>
         <div class="form-group">
             <label for="email">Username</label>
-            <input formControlName="email" type="text" name="email" class="form-control">
+            <input class="form-control" formControlName="email" type="text" name="email">
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input formControlName="password" type="password" name="password" class="form-control">
+            <input class="form-control" formControlName="password" type="password" name="password">
         </div>
-        <div class="msg d-flex justify-content-center align-items-center">{{errorMsg}}</div>
-        <button (click)="login()" class="btn btn-primary">Login</button>
+        <div class="error-msg">{{errorMsg}}</div>
+        <button (click)="login()" class="btn btn-green wide">Login</button>
         <a (click)="goToRegister()" class="d-flex justify-content-center align-items-center">click here to crate account</a>
     </div>
 </div>

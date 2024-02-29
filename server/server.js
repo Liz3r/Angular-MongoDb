@@ -3,7 +3,6 @@ const app = express();
 const mongoose = require("mongoose");
 const Product = require("./models/product.schema");
 const User = require('./models/user.schema');
-const routes = require('./routes/routes');
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
 

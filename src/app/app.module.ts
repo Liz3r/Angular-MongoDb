@@ -16,6 +16,8 @@ import { MyProductsComponent } from './components/my-products/my-products.compon
 import { AddItemComponent } from './components/add-item/add-item.component';
 import { ItemDetailsComponent } from './components/item-details/item-details.component';
 import { FollowingComponent } from './components/following/following.component';
+import { Store, StoreModule } from '@ngrx/store';
+import { StoreDevtools, StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,11 @@ import { FollowingComponent } from './components/following/following.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

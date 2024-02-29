@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
-import check from 'src/app/checkCookie';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -12,16 +11,12 @@ import { environment } from 'src/environments/environment';
 })
 export class HeadComponent implements OnInit{
 
-  phoneIcon = faPhone;
-  private checkCookie = inject(check);
-
   constructor(
     private router: Router,
     private http: HttpClient
     
   ){}
   ngOnInit(): void {
-    this.checkCookie.cookie();
   }
 
   

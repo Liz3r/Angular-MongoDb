@@ -35,6 +35,10 @@ export class LoginComponent implements OnInit{
     
   }
 
+  goToRegister():void{
+    this.router.navigate(['/register']);
+  }
+
   login():void{
     const value = this.form.getRawValue();
     if(value.email.length === 0 || value.password.length === 0){

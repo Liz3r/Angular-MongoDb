@@ -12,19 +12,4 @@ export class LoginService {
     ) { }
 
 
-  checkToken(): boolean{
-    this.http.get<{hasToken: boolean}>(`${environment.apiUrl}/checkToken`, { withCredentials: true })
-    .pipe(
-      //catchError()
-    );
-    return true;
-  }
-
-  login(){
-
-  }
-}
-
-const errorHandler = (error: HttpErrorResponse) =>{
-  //const errorMessage = error.status === 
 }

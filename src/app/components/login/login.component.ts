@@ -35,10 +35,6 @@ export class LoginComponent implements OnInit{
     
   }
 
-  goToRegister():void{
-    this.router.navigate(['/register']);
-  }
-
   login():void{
     const value = this.form.getRawValue();
     if(value.email.length === 0 || value.password.length === 0){
@@ -51,7 +47,6 @@ export class LoginComponent implements OnInit{
     }
     this.http.post(`${environment.apiUrl}/login`,value, { withCredentials: true })
     .pipe(catchError((err,c) => {
-      console.log("cccc");
       if(err.status == 404){
         this.errorMsg = 'Invalid username';
       }

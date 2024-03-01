@@ -1,5 +1,5 @@
 <div class="register-container d-flex justify-content-center align-items-center">
-    <form [formGroup]="form" class="register-form">
+    <form [formGroup]="registerForm" class="register-form">
         <h1 class="form-title">Create account</h1>
 
         <div class="single-row">
@@ -30,13 +30,13 @@
 
         <div class="form-group">
             <label>Repeat Password</label>
-            <input formControlName="rPassword" type="password" class="form-control">
+            <input formControlName="repeatPassword" type="password" class="form-control">
         </div>
 
         <div class="error-msg">{{errorMsg}}</div>
 
         <button (click)="submit()" class="btn btn-orange wide">Register</button>
         
-        <a (click)="goToLogin()" class="logreg">click here to login</a>
+        <a routerLink="/login" class="logreg">click here to login</a>
     </form>
 </div>

@@ -18,6 +18,7 @@ import { ItemDetailsComponent } from './components/item-details/item-details.com
 import { FollowingComponent } from './components/following/following.component';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreDevtools, StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { StoreDevtools, StoreDevtoolsModule } from '@ngrx/store-devtools';
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       maxAge: 25
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

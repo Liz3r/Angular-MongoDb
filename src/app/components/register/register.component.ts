@@ -3,7 +3,8 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@a
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { matchPasswords } from 'src/app/helpers/custom.validators';
+import { atozString, matchPasswords } from 'src/app/helpers/custom.validators';
+import { getErrorMessage } from 'src/app/helpers/handle.validation.errors';
 
 @Component({
   selector: 'app-register',
@@ -12,59 +13,36 @@ import { matchPasswords } from 'src/app/helpers/custom.validators';
 })
 export class RegisterComponent implements OnInit{
 
-
   registerForm!: FormGroup;
   errorMsg!: string;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private router: Router
-  ){
-
-  }
-
+  constructor(){}
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
-      name: new FormControl('', [Validators.required ,Validators.minLength(2), Validators.maxLength(12), Validators.pattern("[A-Za-z ]*")]),
-      surname: new FormControl('', [Validators.required ,Validators.minLength(2), Validators.maxLength(12), Validators.pattern("[A-Za-z ]*")]),
+      name: new FormControl('', [Validators.required ,Validators.minLength(2), Validators.maxLength(12), atozString()]),
+      surname: new FormControl('', [Validators.required ,Validators.minLength(2), Validators.maxLength(12), atozString()]),
       email: new FormControl('', [Validators.required ,Validators.email]),
+      address: new FormControl('', [Validators.required ,Validators.minLength(2), Validators.maxLength(30)]),      
       password: new FormControl('', [Validators.required ,Validators.minLength(8), Validators.maxLength(25)]),
-      repeatPassword: new FormControl('', [Validators.required ,Validators.minLength(8), Validators.maxLength(25)]),
-      address: new FormControl('', [Validators.required ,Validators.minLength(2), Validators.maxLength(12), Validators.pattern("[A-Za-z ]*")])      
+      repeatPassword: new FormControl('', [Validators.required ,Validators.minLength(8), Validators.maxLength(25)])
     }, {validators: matchPasswords});
 
   }
 
-
-
   submit(){
-    console.log(this.registerForm.errors);
+    let errors = getErrorMessage(this.registerForm);
+    if(errors){
+      this.errorMsg = errors;
+      return;
+    }
+
+    this.errorMsg = '';
+    //call service
+    
   }
 
 
-  // submit(): void{
-  //   const values = this.form.getRawValue();
-  //   if(values.name.length === 0 ||
-  //     values.surname.length === 0 ||
-  //     values.email.length === 0 ||
-  //     values.password.length === 0 ||
-  //     values.rPassword.length === 0 ||
-  //     values.address.length === 0)
-  //     {
-  //       this.errorMsg = 'fill empty fields';
-  //       return;
-  //     }
-  //   if(values.password !== values.rPassword){
-  //     this.errorMsg = 'passwords do not match';
-  //     return;
-  //   }
-  //   if(!values.email.match(this.emailRegex)){
-  //     this.errorMsg = 'invalid email';
-  //     return;
-  //   }
-  //   this.errorMsg = '';
   //   const {rPassword, ...user} = values;
     
   //   this.http.post<any>(`${environment.apiUrl}/register`,user)

@@ -8,12 +8,15 @@ export const login = createAction(
     }>()
 );
 
-export const loginSuccess = createAction(
-    'Login Success',
-    props<{token: string}>()
+export const auth = createAction(
+    'Auth'
 );
 
-export const loginFailure = createAction(
-    'Login Failure',
+export const authSuccess = createAction(
+    'Auth Success'
+);
+
+export const authFailure = createAction(
+    'Auth Failure',
     props<{error: string}>()
 );

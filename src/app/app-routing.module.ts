@@ -8,12 +8,13 @@ import { MyProductsComponent } from './components/my-products/my-products.compon
 import { AddItemComponent } from './components/add-item/add-item.component';
 import { ItemDetailsComponent } from './components/item-details/item-details.component';
 import { FollowingComponent } from './components/following/following.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
-  {path: "login", component: LoginComponent },
+  {path: "login", component: LoginComponent, canActivate: [AuthGuard] },
   {path: "register", component: RegisterComponent},
-  {path: "home", component: HomeComponent},
-  {path: "", component: LoginComponent},
+  {path: "home", component: HomeComponent, canActivate: [AuthGuard]},
+  {path: "", redirectTo: "login", pathMatch: 'full'},
   {path: "profile", component: ProfileComponent},
   {path: "my-products", component: MyProductsComponent},
   {path: "add-item", component: AddItemComponent},

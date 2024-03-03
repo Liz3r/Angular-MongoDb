@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { Store, select } from "@ngrx/store"
 import { Observable, filter, map, of, take, tap } from "rxjs"
 import { AppState } from "../state/app-state"
-import { selectAuthFeature, selectIsLogged } from "../state/auth.selector"
+import { selectAuthFeature, selectAuthState, selectIsLogged } from "../state/auth.selector"
 import { auth } from "../state/auth.actions"
 import { logging } from "./isLogged"
 
@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
-        return this.store.select(selectAuthFeature)
+        return this.store.select(selectAuthState)
         .pipe(
             tap((authState) => {
                 if(!authState.isLoading){
@@ -28,13 +28,13 @@ export class AuthGuard implements CanActivate {
             map((authState) => {
                 console.log(authState.isLogged);
                 if(authState.isLogged) {
-                    if(state.url == '/login' || state.url == '/register'){
+                    if(state.url === '/login' || state.url === '/register'){
                         this.router.navigate(['/home']);
                         return false;
                     }
                     return true;
                 } else {
-                    if(state.url != '/login' && state.url != '/register'){
+                    if(state.url !== '/login' && state.url !== '/register'){
                         this.router.navigate(['/login']);
                         return false;
                     }

@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit{
     // });
 
     this.store.dispatch(login(value));
-    //this.router.navigate(['/home']);
+    this.router.navigate(['/home']);
   }
 
 }

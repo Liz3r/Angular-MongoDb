@@ -3,6 +3,10 @@ import { AppState } from "./app-state";
 
 export const selectAuthFeature = (state: AppState) => state.auth;
 
+export const selectAuthState =  createSelector(
+    selectAuthFeature,
+    (authState) => authState
+);
 
 export const selectIsLogged = createSelector(
     selectAuthFeature,

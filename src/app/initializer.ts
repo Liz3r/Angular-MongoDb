@@ -2,13 +2,14 @@ import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { AppState } from "./state/app-state";
 import { auth } from "./state/auth.actions";
+import { selectIsLogged } from "./state/auth.selector";
 
 
 
 export function appInitializerFactory(
     store: Store<AppState>
 ) {
-    return () => { store.dispatch(auth()) };
+    return () => {store.select(selectIsLogged).subscribe((val) => console.log("new state, isLogged: "+val)); store.dispatch(auth()) };
 }
 
 @NgModule({

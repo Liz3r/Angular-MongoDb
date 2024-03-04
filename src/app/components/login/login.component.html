@@ -1,5 +1,5 @@
 <div class="login-container">
-    <div [formGroup]="form" class="login-form">
+    <div [formGroup]="loginForm" class="login-form">
         <h1 class="form-title">Login</h1>
         <div class="form-group">
             <label for="email">Username</label>
@@ -9,7 +9,7 @@
             <label for="password">Password</label>
             <input class="form-control" formControlName="password" type="password" name="password">
         </div>
-        <div class="error-msg">{{errorMsg}}</div>
+        <div class="error-msg" *ngIf="errorMsg$ | async as error">{{error}}</div>
         <button (click)="login()" class="btn btn-green wide login-btn">Login</button>
         <a routerLink="/register" class="logreg">click here to crate account</a>
     </div>

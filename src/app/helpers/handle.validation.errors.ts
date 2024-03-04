@@ -1,6 +1,19 @@
+import { Injectable } from "@angular/core";
 import { FormGroup } from "@angular/forms";
+import { Observable, Subject } from "rxjs";
 
-export function getErrorMessage(form: FormGroup): string | null{
+@Injectable({providedIn: 'root'})
+export class ValidationErrorHandler{
+
+  validationErrorObs: Subject<string | null> = new Subject<string | null>();
+
+  constructor(){}
+
+  getErrorHandler(): Observable<string | null>{
+    return this.validationErrorObs;
+  }
+
+  checkErrors(form: FormGroup): void{
     
     const keys = Object.keys(form.controls);
 
@@ -30,5 +43,7 @@ export function getErrorMessage(form: FormGroup): string | null{
     if(form.hasError('PasswordsNotMatching'))
         errorMessage = 'Passwords do not match';
 
-    return errorMessage;
+    this.validationErrorObs.next(errorMessage);
 }
+}
+

@@ -33,7 +33,7 @@
             <input formControlName="repeatPassword" type="password" class="form-control">
         </div>
 
-        <div class="error-msg">{{errorMsg}}</div>
+        <div class="error-msg" *ngIf="errorMsg$ | async as error">{{error}}</div>
 
         <button (click)="submit()" class="btn btn-orange wide">Register</button>
         

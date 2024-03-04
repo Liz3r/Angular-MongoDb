@@ -13,7 +13,7 @@ export class ValidationErrorHandler{
     return this.validationErrorObs;
   }
 
-  checkErrors(form: FormGroup): void{
+  checkErrors(form: FormGroup): boolean{
     
     const keys = Object.keys(form.controls);
 
@@ -44,6 +44,8 @@ export class ValidationErrorHandler{
         errorMessage = 'Passwords do not match';
 
     this.validationErrorObs.next(errorMessage);
+
+    return !!errorMessage;
 }
 }
 

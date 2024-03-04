@@ -3,13 +3,13 @@ import { auth, login, authFailure, authSuccess } from "./auth.actions";
 
 export interface AuthState{
     isLogged: boolean,
-    error: string,
+    error: string | null,
     isLoading: boolean
 }
 
 const initialAuthState: AuthState = {
     isLogged: false,
-    error: '',
+    error: null,
     isLoading: false
 };
 

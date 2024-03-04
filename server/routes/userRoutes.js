@@ -188,6 +188,7 @@ router.post("/login", async (req,res)=>{
 })
 
 router.get("/auth",verifyToken, async (req,res) => {
+    
     res.status(200).send({message: 'authentificated'});
 })
 

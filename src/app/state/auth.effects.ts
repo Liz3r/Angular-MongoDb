@@ -18,7 +18,7 @@ export class AuthEffects {
         
             this.authService.login(email, password).pipe(
             map(() => AuthActions.authSuccess()),
-            catchError(error => of(AuthActions.authFailure({ error })))
+            catchError(errorResponse => of(AuthActions.authFailure({ error: errorResponse.error.message })))
         )
         )
     )
@@ -30,7 +30,7 @@ export class AuthEffects {
         switchMap(() => 
             this.authService.auth().pipe(
                 map(() => AuthActions.authSuccess()),
-                catchError(errorResponse =>{console.log(errorResponse); return of(AuthActions.authFailure({ error: errorResponse.message }))})
+                catchError(() => of(AuthActions.authFailure({ error: null })))
             )
         )
     )

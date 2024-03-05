@@ -18,5 +18,5 @@ export const authSuccess = createAction(
 
 export const authFailure = createAction(
     'Auth Failure',
-    props<{error: string}>()
+    props<{error: string | null}>()
 );

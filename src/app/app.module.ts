@@ -22,7 +22,7 @@ import { authReducer } from './state/auth.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './state/auth.effects';
 import { AuthGuard } from './auth/auth.guard';
-import { InitializerModule } from './initializer';
+import { ShowProductsComponent } from './components/show-products/show-products.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,8 @@ import { InitializerModule } from './initializer';
     MyProductsComponent,
     AddItemComponent,
     ItemDetailsComponent,
-    FollowingComponent
+    FollowingComponent,
+    ShowProductsComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +46,6 @@ import { InitializerModule } from './initializer';
     ReactiveFormsModule,
     HttpClientModule,
     FontAwesomeModule,
-    InitializerModule,
     StoreModule.forRoot({ auth: authReducer }),
     EffectsModule.forRoot([AuthEffects]),
     StoreDevtoolsModule.instrument({

@@ -5,7 +5,7 @@ import { Observable, Subject } from "rxjs";
 @Injectable({providedIn: 'root'})
 export class ValidationErrorHandler{
 
-  validationErrorObs: Subject<string | null> = new Subject<string | null>();
+  private validationErrorObs: Subject<string | null> = new Subject<string | null>();
 
   constructor(){}
 
@@ -43,7 +43,8 @@ export class ValidationErrorHandler{
     if(form.hasError('PasswordsNotMatching'))
         errorMessage = 'Passwords do not match';
 
-    this.validationErrorObs.next(errorMessage);
+    if(errorMessage)
+      this.validationErrorObs.next(errorMessage);
 
     return !!errorMessage;
 }

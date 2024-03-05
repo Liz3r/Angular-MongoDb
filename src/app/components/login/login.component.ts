@@ -8,7 +8,7 @@ import { ValidationErrorHandler } from 'src/app/helpers/handle.validation.errors
 import { AuthService } from 'src/app/services/auth.service';
 import { AppState } from 'src/app/state/app-state';
 import { auth, login } from 'src/app/state/auth.actions';
-import { selectError, selectIsLogged } from 'src/app/state/auth.selector';
+import { selectError, selectIsLoading, selectIsLogged } from 'src/app/state/auth.selector';
 import { environment } from 'src/environments/environment';
 
 
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit{
   loginForm!: FormGroup;
   errorMsg$!: Observable<string | null>;
   loggedIn$!: Subscription;
-  emailRegex = /[a-zA-Z1-9]+@[a-z]+\.[a-z]+/;
+  isLoading$!: Observable<boolean>;
 
 
 
@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit{
 
 
   ngOnInit(): void {
+    this.isLoading$ = this.store.select(selectIsLoading);
     this.loggedIn$ = 
     this.store.select(selectIsLogged)
     .subscribe((isLogged) => {

@@ -38,24 +38,52 @@ router.delete("/deleteItem/:itemId", verifyToken, async (req,res) => {
 
 })
 
-router.get("/searchAllItems/:search?", verifyToken, async (req,res) => {
+router.get("/searchAllItems/:page/:search?", verifyToken, async (req,res) => {
     try {
         
         const searchInput = req.params.search;
+        const page = req.params.page;
         var itemList;
         if(searchInput && searchInput != ''){
-            itemList = (await Product.find({$text: { $search: searchInput, $caseSensitive: false}})); //indeksiranje postoji samo za polje 'title' 
+            //itemList = (await Product.find({$text: { $search: searchInput, $caseSensitive: false}})); //indeksiranje postoji samo za polje 'title' 
+            itemList = await Product.aggregate([
+                {$search: {
+                    'index': 'indexTitle',
+                    'text': {
+                      'query': searchInput, 
+                      'path': 'title'
+                    }}
+                },{
+                    $facet: {
+                      'rows': [
+                          { $skip: 10*page }, 
+                          { $limit: 10 }
+                        ], 
+                      'totalRows': [
+                        { $replaceWith: '$$SEARCH_META' }, 
+                        { $limit: 1 }
+                      ]
+                    }
+                  }
+                
+            ]);
+            //console.log(itemList[0].totalRows[0].count.lowerBound);
         }
         else{
-            itemList = (await Product.find({}));
+            res.status(404).send({message: 'No items found'});
+            return;
         }
             
-        const items = itemList.map(prod => { return {...prod._doc, dateMessage: generateDateMessage(prod.datePosted)} });
+        const items = itemList[0].rows.map(prod => {console.log(prod); return {...prod, dateMessage: generateDateMessage(prod.datePosted)} });
     
-        res.status(200).send(items);
+        res.status(200).send({items: items, totalCount: itemList[0].totalRows});
     } catch (error) {
         res.status(500).send({message: error.message});
     }
+})
+
+router.get("/getAllItems/:page/:search?", verifyToken, async (req,res) => {
+    
 })
 
 router.get("/getFollowedItemsSearch/:search?", verifyToken, async (req,res) => {

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, inject } from '@angular/core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Observer, debounceTime, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, Observer, Subject, catchError, debounceTime, of, switchMap } from 'rxjs';
 import { Product } from 'src/app/models/product';
 import { AppState } from 'src/app/state/app-state';
 import { auth } from 'src/app/state/auth.actions';
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit{
 
   products$!: Observable<any>;
   searchResult$!: Observable<Product[]>;
-  searchInput$ = new BehaviorSubject<String>('');
+  searchInput$ = new Subject<String>();
   
   constructor(
     private http: HttpClient,
@@ -38,12 +38,14 @@ export class HomeComponent implements OnInit{
 
   ngOnInit(): void { 
     
-    this.searchResult$ = this.searchInput$
-    .pipe(
-      debounceTime(500),
-      switchMap((search) => {
-          return this.http.get<Product[]>(`${environment.apiUrl}/searchAllItems/${search}`, {withCredentials: true});
-      }));
+    // this.searchResult$ = this.searchInput$
+    // .pipe(
+    //   debounceTime(500),
+    //   switchMap((search) => {
+    //       return this.http.get<{prod: Product[], count: Number}>(`${environment.apiUrl}/searchAllItems/0/${search}`, {withCredentials: true});
+    //   }),
+    //   catchError(error => of([]))
+    //   );
   }
 
 }

@@ -5,24 +5,27 @@ import * as Actions from "./products.actions";
 
 
 export interface ProductsState extends EntityState<Product>{
-    isLoading: boolean,
-    error: string | null,
 
     page: Number,
     maxPage: Number,
+
+    isLoading: boolean,
+    error: string | null,
 
 }
 const adapter = createEntityAdapter<Product>();
 
 const initialProductsState: ProductsState = adapter.getInitialState({
-    isLoading: false,
     page: 0,
     maxPage: 0,
+
+    isLoading: false,
     error: null
 });
 
 export const ProductsReducer =  createReducer(
     initialProductsState,
-    on(Actions.loadProducts,(state, {search}) => ({...state, isLoading: true})),
-    on(Actions.loadProductsSuccess, (state, { products }) => adapter.setAll(products,state))
+    on(Actions.loadProducts,(state) => ({...state, isLoading: true})),
+    on(Actions.loadProductsSuccess, (state, { products }) => adapter.setAll(products,{...state, isLoading: false})),
+    on(Actions.loadProductsFailure, (state, {error}) => ({...state, error: error, isLoading: false }))
 );

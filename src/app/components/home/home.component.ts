@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit{
 
   products$!: Observable<any>;
   searchResult$!: Observable<Product[]>;
-  searchInput$ = new Subject<String>();
+  searchInput$ = new BehaviorSubject<String>('');
   
   constructor(
     private http: HttpClient,
@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit{
     // .pipe(
     //   debounceTime(500),
     //   switchMap((search) => {
-    //       return this.http.get<{prod: Product[], count: Number}>(`${environment.apiUrl}/searchAllItems/0/${search}`, {withCredentials: true});
+    //       return this.http.get<{prod: Product[], count: Number}>(`${environment.apiUrl}/searchAllItems/${search}`, {withCredentials: true});
     //   }),
     //   catchError(error => of([]))
     //   );

@@ -23,6 +23,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './state/auth.effects';
 import { AuthGuard } from './auth/auth.guard';
 import { ShowProductsComponent } from './components/show-products/show-products.component';
+import { ProductsEffects } from './state/products.effects';
+import { ProductsReducer } from './state/products.reducer';
 
 @NgModule({
   declarations: [
@@ -46,8 +48,8 @@ import { ShowProductsComponent } from './components/show-products/show-products.
     ReactiveFormsModule,
     HttpClientModule,
     FontAwesomeModule,
-    StoreModule.forRoot({ auth: authReducer }),
-    EffectsModule.forRoot([AuthEffects]),
+    StoreModule.forRoot({ auth: authReducer, prod: ProductsReducer }),
+    EffectsModule.forRoot([AuthEffects, ProductsEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25
     })

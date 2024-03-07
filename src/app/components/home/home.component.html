@@ -6,6 +6,6 @@
     </button>
 </div>
 
-<div *ngFor="let product of searchResult$ | async" class="items-div">
+<div *ngFor="let product of products$ | async" class="items-div">
     <app-product [product]="product" [prev]="'home'"></app-product>
 </div>

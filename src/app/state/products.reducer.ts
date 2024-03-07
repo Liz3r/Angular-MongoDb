@@ -13,7 +13,9 @@ export interface ProductsState extends EntityState<Product>{
     error: string | null,
 
 }
-const adapter = createEntityAdapter<Product>();
+const adapter = createEntityAdapter<Product>({
+    selectId: (prod: Product) => prod._id
+});
 
 const initialProductsState: ProductsState = adapter.getInitialState({
     page: 0,

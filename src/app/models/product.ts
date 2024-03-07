@@ -1,5 +1,5 @@
 export interface Product{
-    _id: String,
+    _id: string,
     title: String,
     description: String,
     datePosted: Date,

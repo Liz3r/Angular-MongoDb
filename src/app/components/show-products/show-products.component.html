@@ -1,1 +1,8 @@
-<p>show-products works!</p>
+
+<div class="show-products-container">
+    <app-products-page-nav [maxPagesChange]="maxPages$ | async" [curentPageChange]="currentPage$ | async"></app-products-page-nav>
+    <div *ngFor="let product of products$ | async" class="items-div">
+        <app-product [product]="product" [prev]="'home'"></app-product>
+    </div>
+    <app-products-page-nav></app-products-page-nav>
+</div>

@@ -10,7 +10,7 @@ export const loadProducts = createAction(
 
 export const loadProductsSuccess = createAction(
     'Load Products Success',
-    props<{products: Product[]}>()
+    props<{products: Product[], maxPage: Number}>()
 );
 
 

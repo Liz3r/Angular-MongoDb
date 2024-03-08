@@ -25,6 +25,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { ShowProductsComponent } from './components/show-products/show-products.component';
 import { ProductsEffects } from './state/products.effects';
 import { ProductsReducer } from './state/products.reducer';
+import { ProductsPageNavComponent } from './components/products-page-nav/products-page-nav.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ProductsReducer } from './state/products.reducer';
     AddItemComponent,
     ItemDetailsComponent,
     FollowingComponent,
-    ShowProductsComponent
+    ShowProductsComponent,
+    ProductsPageNavComponent
   ],
   imports: [
     BrowserModule,

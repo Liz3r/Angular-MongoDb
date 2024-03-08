@@ -2,11 +2,12 @@ import { EntityState, createEntityAdapter } from "@ngrx/entity";
 import { Product } from "../models/product";
 import { createReducer, on } from "@ngrx/store";
 import * as Actions from "./products.actions";
+import { max } from "rxjs";
 
 
 export interface ProductsState extends EntityState<Product>{
 
-    page: Number,
+    currentPage: Number,
     maxPage: Number,
 
     isLoading: boolean,
@@ -18,7 +19,7 @@ const adapter = createEntityAdapter<Product>({
 });
 
 const initialProductsState: ProductsState = adapter.getInitialState({
-    page: 0,
+    currentPage: 0,
     maxPage: 0,
 
     isLoading: false,
@@ -28,6 +29,6 @@ const initialProductsState: ProductsState = adapter.getInitialState({
 export const ProductsReducer =  createReducer(
     initialProductsState,
     on(Actions.loadProducts,(state) => ({...state, isLoading: true})),
-    on(Actions.loadProductsSuccess, (state, { products }) => adapter.setAll(products,{...state, isLoading: false})),
-    on(Actions.loadProductsFailure, (state, {error}) => ({...state, error: error, isLoading: false }))
+    on(Actions.loadProductsSuccess, (state, { products, maxPage }) => adapter.setAll(products,{...state, maxPage: maxPage, currentPage: 0, isLoading: false})),
+    on(Actions.loadProductsFailure, (state, {error}) => ({...state, error: error, currentPage: 0, isLoading: false }))
 );

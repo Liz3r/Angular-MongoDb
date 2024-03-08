@@ -9,12 +9,18 @@ export const selectAuthState =  createSelector(
     (prodState) => prodState
 );
 
-export const selectPage = createSelector(
+export const selectCurrentPage = createSelector(
     selectProdFeature,
-    (prodState) => prodState.page
+    (prodState) => prodState.currentPage
+);
+
+export const selectMaxPage = createSelector(
+    selectProdFeature,
+    (prodState) => prodState.maxPage
 );
 
 export const selectProducts = createSelector(
     selectProdFeature,
     (prodState) => Object.values(prodState.entities).filter( (prod) => prod != null).map(prod => <Product>prod)
 );
+

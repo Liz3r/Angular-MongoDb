@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscriber, Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/app-state';
@@ -14,9 +14,11 @@ export class ProductsPageNavComponent implements OnInit, OnChanges{
   maxPages = 0;
   currentPage = 0;
 
-  @Input() curentPageChange: Number | null = null;
-  @Input() maxPagesChange: Number | null = null;
+  @Input() curentPageChange: number | null = null;
+  @Input() maxPagesChange: number | null = null;
+  @Output() newPageSelection = new EventEmitter<number>();
 
+  pages!: Array<number>;
 
   constructor(){}
   
@@ -25,8 +27,12 @@ export class ProductsPageNavComponent implements OnInit, OnChanges{
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("Changes - max pages: " + this.maxPagesChange + " current page: " + this.curentPageChange);
-    
+    //console.log("Changes - max pages: " + this.maxPagesChange + " current page: " + this.curentPageChange);
+    this.pages = Array(this.maxPagesChange).fill(0).map((n,i) => i);
   }
 
+  pageSelected(num: number){
+    if(this.maxPagesChange && num >= 0 && num < this.maxPagesChange)
+      this.newPageSelection.emit(num);
+  }
 }

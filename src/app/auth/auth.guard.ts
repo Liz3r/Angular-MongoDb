@@ -5,15 +5,13 @@ import { Observable, filter, map, of, take, tap } from "rxjs"
 import { AppState } from "../state/app-state"
 import { selectAuthFeature, selectAuthState, selectIsLogged } from "../state/auth.selector"
 import { auth } from "../state/auth.actions"
-import { logging } from "./isLogged"
 
 
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {
     constructor(
         private store: Store<AppState>,
-        private router: Router,
-        private loading: logging) { }
+        private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
@@ -47,14 +45,14 @@ export class AuthGuard implements CanActivate {
     }
 }
 
-@Injectable({providedIn: 'root'})
-export class CheckAuth implements CanActivate {
-    constructor(
-        private store: Store<AppState>,
-        private router: Router) { }
+// @Injectable({providedIn: 'root'})
+// export class CheckAuth implements CanActivate {
+//     constructor(
+//         private store: Store<AppState>,
+//         private router: Router) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        this.store.dispatch(auth());
-        return of(true);
-    }
-}
+//     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+//         this.store.dispatch(auth());
+//         return of(true);
+//     }
+// }

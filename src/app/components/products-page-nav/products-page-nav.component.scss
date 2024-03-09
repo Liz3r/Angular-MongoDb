@@ -11,5 +11,71 @@ div.page-nav-container{
 
     height: 40px;
 
-    background-color: red;
+    //background-color: red;
+}
+
+
+div.select-page{
+    position: relative;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-left: 2px;
+    margin-right: 2px;
+
+    border-radius: 100%;
+    padding: 10px;
+
+    border: 1px solid #D0D7DE;
+}
+
+div.select-page:hover{
+    background-color: rgb(60, 214, 80);
+    color: white;
+    cursor: pointer;
+}
+
+div.left-arrow:after:before{
+    position: absolute;
+    display: block;
+
+    content: '';
+    width: 20px;
+    height: 5px;
+    background-color: black;
+}
+
+div.arrow{
+    border: none;
+}
+div.arrow:hover{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+div.right-arrow::after, div.right-arrow::before,
+div.left-arrow::after, div.left-arrow::before{
+    position: absolute;
+    display: block;
+
+    content: '';
+    width: 38%;
+    height: 3px;
+    background-color: #717579;
+}
+
+div.right-arrow::after{
+    transform: translateY(-150%) rotate(45deg);
+}
+div.right-arrow::before{
+    transform: translateY(150%) rotate(-45deg);
+}
+
+div.left-arrow::after{
+    transform: translateY(-150%) rotate(-45deg);
+}
+div.left-arrow::before{
+    transform: translateY(150%) rotate(45deg);
 }

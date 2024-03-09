@@ -7,8 +7,9 @@ import { max } from "rxjs";
 
 export interface ProductsState extends EntityState<Product>{
 
-    currentPage: Number,
-    maxPage: Number,
+    currentPage: number,
+    maxPage: number,
+    itemsPerPage: number,
 
     isLoading: boolean,
     error: string | null,
@@ -21,6 +22,7 @@ const adapter = createEntityAdapter<Product>({
 const initialProductsState: ProductsState = adapter.getInitialState({
     currentPage: 0,
     maxPage: 0,
+    itemsPerPage: 8,
 
     isLoading: false,
     error: null
@@ -30,5 +32,10 @@ export const ProductsReducer =  createReducer(
     initialProductsState,
     on(Actions.loadProducts,(state) => ({...state, isLoading: true})),
     on(Actions.loadProductsSuccess, (state, { products, maxPage }) => adapter.setAll(products,{...state, maxPage: maxPage, currentPage: 0, isLoading: false})),
-    on(Actions.loadProductsFailure, (state, {error}) => ({...state, error: error, currentPage: 0, isLoading: false }))
+    on(Actions.loadProductsFailure, (state, {error}) => ({...state, error: error, currentPage: 0, isLoading: false })),
+    on(Actions.pageSelection, (state,{ selectedPage }) =>{ 
+        if(selectedPage >= 0 && selectedPage <= state.maxPage)
+            return {...state, currentPage: selectedPage}
+        return state; 
+    })
 );

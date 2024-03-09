@@ -10,7 +10,7 @@ export const loadProducts = createAction(
 
 export const loadProductsSuccess = createAction(
     'Load Products Success',
-    props<{products: Product[], maxPage: Number}>()
+    props<{products: Product[], maxPage: number}>()
 );
 
 
@@ -18,3 +18,8 @@ export const loadProductsFailure = createAction(
     'Load Products Failure',
     props<{error: string}>()
 );
+
+export const pageSelection = createAction(
+    'Select Page',
+    props<{selectedPage: number}>()
+)

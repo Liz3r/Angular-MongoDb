@@ -38,6 +38,11 @@ div.select-page:hover{
     cursor: pointer;
 }
 
+div.selected{
+    background-color: rgb(77, 199, 93);
+    color: white;
+}
+
 div.left-arrow:after:before{
     position: absolute;
     display: block;

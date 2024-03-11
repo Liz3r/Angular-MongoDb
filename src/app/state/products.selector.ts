@@ -20,6 +20,12 @@ export const selectMaxPage = createSelector(
     (prodState) => prodState.maxPage
 );
 
+export const selectItemsPerPage = createSelector(
+    selectProdFeature,
+    (prodState) => prodState.itemsPerPage
+);
+
+
 export const selectProducts = createSelector(
     selectProdFeature,
     (prodState) => Object.values(prodState.entities)

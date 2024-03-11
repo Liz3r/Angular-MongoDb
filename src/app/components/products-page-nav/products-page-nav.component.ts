@@ -11,11 +11,10 @@ import { selectMaxPage } from 'src/app/state/products.selector';
 })
 export class ProductsPageNavComponent implements OnInit, OnChanges{
 
-  maxPages = 0;
-  currentPage = 0;
 
-  @Input() curentPageChange: number | null = null;
-  @Input() maxPagesChange: number | null = null;
+
+  @Input() curentPage: number | null = null;
+  @Input() maxPages: number | null = null;
   @Output() newPageSelection = new EventEmitter<number>();
 
   pages!: Array<number>;
@@ -27,12 +26,12 @@ export class ProductsPageNavComponent implements OnInit, OnChanges{
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    //console.log("Changes - max pages: " + this.maxPagesChange + " current page: " + this.curentPageChange);
-    this.pages = Array(this.maxPagesChange).fill(0).map((n,i) => i);
+    console.log("Changes - max pages: " + this.maxPages + " current page: " + this.curentPage);
+    this.pages = Array(this.maxPages).fill(0).map((n,i) => i);
   }
 
   pageSelected(num: number){
-    if(this.maxPagesChange && num >= 0 && num < this.maxPagesChange)
+    if(this.maxPages && num >= 0 && num < this.maxPages)
       this.newPageSelection.emit(num);
   }
 }

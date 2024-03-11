@@ -22,7 +22,7 @@ const adapter = createEntityAdapter<Product>({
 const initialProductsState: ProductsState = adapter.getInitialState({
     currentPage: 0,
     maxPage: 0,
-    itemsPerPage: 8,
+    itemsPerPage: 7,
 
     isLoading: false,
     error: null

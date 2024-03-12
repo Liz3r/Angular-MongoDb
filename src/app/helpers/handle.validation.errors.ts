@@ -37,6 +37,8 @@ export class ValidationErrorHandler{
           errorMessage = 'invalid email';
         if(key.hasError('notAtoZString'))
           errorMessage = keyName + ' field must be a-z string';
+        if(key.hasError('notNumber'))
+          errorMessage = keyName + ' field must be a number';
       }
     })
 

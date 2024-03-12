@@ -1,9 +1,11 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Form, FormControl, FormGroup } from '@angular/forms';
+import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import '@fortawesome/fontawesome-svg-core';
 import { faFolderOpen } from '@fortawesome/free-solid-svg-icons';
+import { atozString, isNumber } from 'src/app/helpers/custom.validators';
 import { User } from 'src/app/models/user';
+import { ProfileService } from 'src/app/services/profile.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -30,29 +32,30 @@ export class ProfileComponent implements OnInit{
   changeSuccessMsg: String = '';
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private profileService: ProfileService
   ){
 
   }
   ngOnInit(): void {
     
     this.form = new FormGroup({
-      email: new FormControl<String>(''),
-      name: new FormControl<String>(''),
-      surname: new FormControl<String>(''),
-      address: new FormControl<String>(''),
-      city: new FormControl<String>(''),
-      phoneNumber: new FormControl<Number>(0),
+      email: new FormControl('',[Validators.required, Validators.email, Validators.minLength(8), Validators.maxLength(25)]),
+      name: new FormControl('',[Validators.required ,Validators.minLength(2), Validators.maxLength(12), atozString()]),
+      surname: new FormControl('',[Validators.required ,Validators.minLength(2), Validators.maxLength(12), atozString()]),
+      address: new FormControl('', [Validators.required ,Validators.minLength(2), Validators.maxLength(30)]),
+      city: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(30), atozString()]),
+      phoneNumber: new FormControl('', [Validators.minLength(6), Validators.maxLength(30), isNumber()]),
       picture: new FormControl(null)
   });
 
   this.passwordForm = new FormGroup({
-      password: new FormControl<String>(''),
-      newPassword: new FormControl<String>(''),
-      newPasswordRepeat: new FormControl<String>('')
+      password: new FormControl<String>('',[Validators.required, Validators.minLength(8), Validators.maxLength(25)]),
+      newPassword: new FormControl<String>('',[Validators.required, Validators.minLength(8), Validators.maxLength(25)]),
+      newPasswordRepeat: new FormControl<String>('',[Validators.required, Validators.minLength(8), Validators.maxLength(25)])
   });
 
-    this.http.get<User>(`${environment.apiUrl}/getUserProfile`,{ withCredentials: true})
+    this.profileService.getProfileDetails()
     .subscribe(res=>{
       this.form.patchValue({email: res.email});
       this.form.patchValue({name: res.name});
@@ -67,8 +70,6 @@ export class ProfileComponent implements OnInit{
       }
     })
   }
-
-
 
   onImageSelected(event: Event):void {
 
@@ -118,7 +119,7 @@ export class ProfileComponent implements OnInit{
     if(this.form.value.picture)
       data.append('picture', this.form.value.picture, this.form.value.picture.name);
 
-    this.http.post(`${environment.apiUrl}/updateUserProfile`, data, { withCredentials: true})
+    this.profileService.updateProfile(data)
     .subscribe(res=>{
       console.log(res);
     });

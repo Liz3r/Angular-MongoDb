@@ -49,18 +49,13 @@ export class LoginComponent implements OnInit{
       email: new FormControl('', [Validators.required, Validators.email, Validators.minLength(8), Validators.maxLength(25)]),
       password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(25)])
     })
-    
   }
-
 
   login():void{
     const value = this.loginForm.getRawValue();
-
     if(!this.handler.checkErrors(this.loginForm)){
       this.store.dispatch(login(value));
     }
-    //this.store.dispatch(login(value));
-    //this.router.navigate(['/home']);
   }
 
 }

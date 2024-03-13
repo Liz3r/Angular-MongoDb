@@ -43,7 +43,7 @@
             </div>
             
         </div>
-        <div class="err-div">{{profileChangesErr}}</div>
+        <div class="err-div" >{{profileChangesErr}}</div>
         <button class="btn btn-primary" (click)="onSubmit()">Save changes</button>
         </form>
 
@@ -69,7 +69,7 @@
     </form>
 
 
-    <div class="err-div">{{changePasswordErr}}</div>
+    <div class="err-div"  *ngIf="changePasswordErr | async as err">{{err}}</div>
     <button class="btn btn-primary" (click)="changePassword()">Change password</button>
 
 </div>

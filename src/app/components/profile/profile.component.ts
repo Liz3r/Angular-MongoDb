@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import '@fortawesome/fontawesome-svg-core';
 import { faFolderOpen } from '@fortawesome/free-solid-svg-icons';
-import { atozString, isNumber } from 'src/app/helpers/custom.validators';
+import { Observable } from 'rxjs';
+import { atozString, changePasswordCheck, isNumber } from 'src/app/helpers/custom.validators';
+import { ValidationErrorHandler } from 'src/app/helpers/handle.validation.errors';
 import { User } from 'src/app/models/user';
 import { ProfileService } from 'src/app/services/profile.service';
 import { environment } from 'src/environments/environment';
@@ -26,19 +28,22 @@ export class ProfileComponent implements OnInit{
   pictureData: String = this.defaultPicture;
 
   profileChangesErr: String = '';
-  changePasswordErr: String = '';
+  changePasswordErr!: Observable<any>;
 
 
   changeSuccessMsg: String = '';
 
   constructor(
     private http: HttpClient,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private handler: ValidationErrorHandler
   ){
 
   }
   ngOnInit(): void {
     
+    this.changePasswordErr = this.handler.getErrorHandler();
+
     this.form = new FormGroup({
       email: new FormControl('',[Validators.required, Validators.email, Validators.minLength(8), Validators.maxLength(25)]),
       name: new FormControl('',[Validators.required ,Validators.minLength(2), Validators.maxLength(12), atozString()]),
@@ -53,7 +58,7 @@ export class ProfileComponent implements OnInit{
       password: new FormControl<String>('',[Validators.required, Validators.minLength(8), Validators.maxLength(25)]),
       newPassword: new FormControl<String>('',[Validators.required, Validators.minLength(8), Validators.maxLength(25)]),
       newPasswordRepeat: new FormControl<String>('',[Validators.required, Validators.minLength(8), Validators.maxLength(25)])
-  });
+  }, { validators: changePasswordCheck});
 
     this.profileService.getProfileDetails()
     .subscribe(res=>{
@@ -97,13 +102,12 @@ export class ProfileComponent implements OnInit{
 
       reader.readAsDataURL(this.file);
     }else{
-
       this.form.patchValue({picture: null});
       this.pictureData = this.defaultPicture;
       this.profileChangesErr = this.file.size < 400*1024? 'File too large (max 400KB)' : 'Invalid format';
       this.file = null;
     }
-    console.log(this.file?.size);
+
   }
 
   onSubmit(){
@@ -127,14 +131,11 @@ export class ProfileComponent implements OnInit{
 
 
   changePassword(){
-    if(this.passwordForm.value.newPassword !== this.passwordForm.value.newPasswordRepeat){
-      this.changePasswordErr = 'passwords do not match';
-      return;
+    if(!this.handler.checkErrors(this.passwordForm)){
+      this.profileService.changePassword(this.passwordForm.value.password, this.passwordForm.value.newPassword)
+      .subscribe(res => {
+        console.log(res);
+      })
     }
-    console.log(this.passwordForm.value.password);
-    this.http.post(`${environment.apiUrl}/changePassword`,{password: this.passwordForm.value.password, newPassword: this.passwordForm.value.newPassword}, {withCredentials: true})
-    .subscribe(res => {
-      console.log(res);
-    })
   }
 }

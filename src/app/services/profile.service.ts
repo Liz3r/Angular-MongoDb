@@ -20,7 +20,9 @@ export class ProfileService {
     }
 
     changePassword(password: string, newPassword: string){
-        return this.http.post(`${environment.apiUrl}/changePassword`,{password: password, newPassword: newPassword}, {withCredentials: true});
+      return this.http.post(`${environment.apiUrl}/changePassword`,{password: password, newPassword: newPassword}, {withCredentials: true})
+      
+      
     }
 }
 

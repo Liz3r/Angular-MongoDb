@@ -8,7 +8,23 @@ export const matchPasswords: ValidatorFn = (control: AbstractControl): Validatio
             return password.value === repeatPassword.value? null : { PasswordsNotMatching: true };
         }
 
-        throw new Error("Form controls 'password' and 'repeatPassword' are not present in form you passed.");
+        return null;
+}
+
+export const changePasswordCheck: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const oldPassword = control.get('password');
+    const password = control.get('newPassword');
+    const repeatPassword = control.get('newPasswordRepeat');
+    if (password && repeatPassword && oldPassword) {
+        if(password.value !== repeatPassword.value){
+            return { PasswordsNotMatching: true };
+        }else if( oldPassword === password){
+            return { oldPassword: true };
+        }
+        return null
+    }
+
+    return null;
 }
 
 export function atozString(): ValidatorFn {
@@ -21,25 +37,6 @@ export function atozString(): ValidatorFn {
         return null;
     }
 }
-
-// export function fileSizeValidator(files: FileList) {
-//     return function(control: FormControl) {
-//       const file = control.value;
-//       if (file) {
-//         var path = file.replace(/^.*[\\\/]/, "");
-//         const fileSize = files.item(0).size;
-//         const fileSizeInKB = Math.round(fileSize / 1024);
-//         if (fileSizeInKB >= 19) {
-//           return {
-//             fileSizeValidator: true
-//           };
-//         } else {
-//           return null;
-//         }
-//       }
-//       return null;
-//     };
-//   }
 
 export function isNumber(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

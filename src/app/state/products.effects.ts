@@ -23,14 +23,29 @@ export class ProductsEffects{
         return this.actions$.pipe(
             ofType(ProdActions.loadProducts),
             withLatestFrom(this.store.select(selectItemsPerPage)),
-            switchMap(([{search},itemsPerPage]) => 
-                this.productService.searchHomeProducts(search).pipe(
-                    //tap((response) => { console.log(response.length)}),
-                    
-                    map((response) => ProdActions.loadProductsSuccess({products: response, maxPage: Math.ceil(response.length/itemsPerPage)})),
-                    catchError((error) => of(ProdActions.loadProductsFailure({error: error})))
-                    )
-            )
+            switchMap(([{search, path},itemsPerPage]) => {
+                if(path === 'home'){
+                    return this.productService.searchHomeProducts(search).pipe(
+                        //tap((response) => { console.log(response.length)}),
+                        map((response) => ProdActions.loadProductsSuccess({products: response, maxPage: Math.ceil(response.length/itemsPerPage)})),
+                        catchError((error) => of(ProdActions.loadProductsFailure({error: error})))
+                        )
+                }
+                if(path === 'following'){
+                    return this.productService.searchFollowingProducts(search).pipe(
+                        map((response) => ProdActions.loadProductsSuccess({products: response, maxPage: Math.ceil(response.length/itemsPerPage)})),
+                        catchError((error) => of(ProdActions.loadProductsFailure({error: error})))
+                        )
+                }
+                if(path === 'my-products'){
+                    return this.productService.searchMyProducts(search).pipe(
+                        map((response) => ProdActions.loadProductsSuccess({products: response, maxPage: Math.ceil(response.length/itemsPerPage)})),
+                        catchError((error) => of(ProdActions.loadProductsFailure({error: error})))
+                        )
+                }
+
+                return of(ProdActions.loadProductsFailure({error: 'Invalid input path'}));
+            })
         )
     })
 }

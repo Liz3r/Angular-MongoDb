@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subject, Subscriber, debounce, debounceTime, switchMap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject, Observable, Subject, Subscriber, Subscription, debounce, debounceTime, switchMap } from 'rxjs';
 import { Product } from 'src/app/models/product';
+import { loadProducts } from 'src/app/state/products.actions';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -13,12 +15,11 @@ import { environment } from 'src/environments/environment';
 export class FollowingComponent implements OnInit, OnDestroy{
 
   products$!: Observable<any>;
-  searchResult$!: Observable<Product[]>;
-  searchInput$ = new BehaviorSubject<String>('');
+  searchInput$ = new BehaviorSubject<string>('');
+  searchSub!: Subscription;
 
   constructor(
-    private router: Router,
-    private http: HttpClient
+    private store: Store
   ){
     
   }
@@ -28,14 +29,14 @@ export class FollowingComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void { 
-    this.searchResult$ = this.searchInput$
-    .pipe(
-      debounceTime(500),
-      switchMap((search) => {
-          return this.http.get<Product[]>(`${environment.apiUrl}/getFollowedItemsSearch/${search}`, {withCredentials: true});
-      }));
+    this.searchSub = this.searchInput$
+    .pipe(debounceTime(500)).
+    subscribe((search) => {
+      this.store.dispatch(loadProducts({search: search, path: 'following'}));
+    });
   }
 
   ngOnDestroy(): void{
+    this.searchSub.unsubscribe();
   }
 }

@@ -1,6 +1,5 @@
+<app-head></app-head>
 
 <input (keyup)="onInputChange($event)" class="search" placeholder="Search"/>
 
-<div *ngFor="let product of searchResult$ | async" class="items-div">
-    <app-product [product]="product" [prev]="'following'"></app-product>
-</div>
+<app-show-products></app-show-products>

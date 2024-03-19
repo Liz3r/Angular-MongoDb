@@ -15,6 +15,12 @@ export class ProductService {
     searchHomeProducts(search: string){
         return this.http.get<Product[]>(`${environment.apiUrl}/searchAllItems/${search}`, {withCredentials: true});
     }
+    searchFollowingProducts(search: string){
+      return this.http.get<Product[]>(`${environment.apiUrl}/getFollowedItemsSearch/${search}`, {withCredentials: true});
+    }
+    searchMyProducts(search: string){
+      return this.http.get<Product[]>(`${environment.apiUrl}/searchItemsByUser/${search}`, {withCredentials: true});
+    }
 }
 
 

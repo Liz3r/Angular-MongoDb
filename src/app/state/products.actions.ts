@@ -4,7 +4,7 @@ import { Product } from "../models/product";
 
 export const loadProducts = createAction(
     'Load Products',
-    props<{search: string}>()
+    props<{search: string, path: string}>()
 );
 
 

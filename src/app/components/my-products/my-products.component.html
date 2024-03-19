@@ -1,3 +1,4 @@
+<app-head></app-head>
 
 <input (keyup)="onInputChange($event)" class="search" placeholder="Search"/>
 
@@ -6,7 +7,5 @@
     <span class="text">Add Item</span>
 </div>
 
-<div *ngFor="let product of searchResult$ | async" class="items-div">
-    <app-product [product]="product" [deleted]="deleted" [prev]="'my-products'"></app-product>
-</div>
+<app-show-products></app-show-products>
 

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subscription, debounceTime, filter, from, map, of, switchMap, take } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, debounceTime, filter, from, map, of, switchMap, take, withLatestFrom } from 'rxjs';
 import { Product } from 'src/app/models/product';
 import { loadProducts } from 'src/app/state/products.actions';
 import { environment } from 'src/environments/environment';
@@ -18,6 +18,8 @@ export class MyProductsComponent implements OnInit{
   searchInput$ = new BehaviorSubject<string>('');
   searchSub!: Subscription;
 
+  addItemDialogActive: boolean = false;
+
   constructor(
     private router: Router,
     private store: Store
@@ -26,7 +28,7 @@ export class MyProductsComponent implements OnInit{
   }
 
   deleted = () =>{
-    this.searchInput$.next('');
+    this.searchInput$.next(this.searchInput$.value);
   }
 
   onInputChange(e:any):void{
@@ -40,13 +42,17 @@ export class MyProductsComponent implements OnInit{
       this.store.dispatch(loadProducts({search: search, path: 'my-products'}))
     });
   }
+  
 
+  showAddItemDialog(show: boolean){
+    this.addItemDialogActive = show;
+  }
+
+
+  
   ngOnDestroy(): void{
     this.searchSub.unsubscribe();
   }
 
-  addItemPage(){
-    this.router.navigate(["/add-item"]);
-  }
 
 }

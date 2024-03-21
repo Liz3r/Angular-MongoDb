@@ -11,7 +11,7 @@ export interface ProductsState extends EntityState<Product>{
     maxPage: number,
     itemsPerPage: number,
 
-    isLoading: boolean,
+    isLoadingProducts: boolean,
     error: string | null,
 
 }
@@ -24,15 +24,15 @@ const initialProductsState: ProductsState = adapter.getInitialState({
     maxPage: 0,
     itemsPerPage: 7,
 
-    isLoading: false,
+    isLoadingProducts: false,
     error: null
 });
 
 export const ProductsReducer =  createReducer(
     initialProductsState,
-    on(Actions.loadProducts,(state) => ({...state, isLoading: true})),
-    on(Actions.loadProductsSuccess, (state, { products, maxPage }) => adapter.setAll(products,{...state, maxPage: maxPage, currentPage: 0, isLoading: false})),
-    on(Actions.loadProductsFailure, (state, {error}) => ({...state, error: error, currentPage: 0, isLoading: false })),
+    on(Actions.loadProducts,(state) => ({...state, isLoadingProducts: true})),
+    on(Actions.loadProductsSuccess, (state, { products, maxPage }) => adapter.setAll(products,{...state, maxPage: maxPage, currentPage: 0, isLoadingProducts: false})),
+    on(Actions.loadProductsFailure, (state, {error}) => ({...state, error: error, currentPage: 0, isLoadingProducts: false })),
     on(Actions.pageSelection, (state,{ selectedPage }) =>{ 
         if(selectedPage >= 0 && selectedPage <= state.maxPage)
             return {...state, currentPage: selectedPage}

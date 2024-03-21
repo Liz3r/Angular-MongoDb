@@ -1,8 +1,13 @@
+
+<div class="dialog-background" *ngIf="addItemDialogActive">
+    <app-add-item (hideDialog)="showAddItemDialog(false)"></app-add-item>
+</div>
+
 <app-head></app-head>
 
 <input (keyup)="onInputChange($event)" class="search" placeholder="Search"/>
 
-<div class="post-btn" (click)="addItemPage()">
+<div class="post-btn" (click)="showAddItemDialog(true)">
     <span class="plus"></span>
     <span class="text">Add Item</span>
 </div>

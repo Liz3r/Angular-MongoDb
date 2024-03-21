@@ -1,4 +1,4 @@
-<app-head></app-head>
+
 
 <div class="add-item-container">
 
@@ -14,7 +14,7 @@
             <div class="separator-div"></div>
 
             <div class="info-div">
-                <div class="title-div">
+                <div>
                     <label for="title">Title</label>
                     <input class="form-control" id="title" type="text" formControlName="title"/>
                 </div>
@@ -22,18 +22,18 @@
 
                 <div>
                         <label for="price">Price</label>
-                        <div class="price-div">
-                        <input class="form-control" id="price" formControlName="price"/>
+                        <input class="form-control" id="price" type="number" min="1" formControlName="price"/>
+                            <div class="state-div">
 
-                            <label class="radio">
-                                <input type="radio" formControlName="currency" value="din"/>
-                                <span>din</span>
-                            </label>
-                            <label class="radio">
-                                <input type="radio" formControlName="currency" value="eur"/>
-                                <span>eur</span>
-                            </label>
-                        </div>
+                                <label class="radio">
+                                    <input type="radio" formControlName="currency" value="din"/>
+                                    <span>din</span>
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" formControlName="currency" value="eur"/>
+                                    <span>eur</span>
+                                </label>
+                            </div>
                 </div>
 
                 <label>State</label>
@@ -58,7 +58,7 @@
 
                 <div class="description-div">
                     <label>Description</label>
-                    <textarea class="form-control" formControlName="description"></textarea>
+                    <textarea class="form-control" type="text" formControlName="description"></textarea>
                 </div>
 
             </div>
@@ -66,7 +66,10 @@
         </div>
 
         <div class="err-div">{{errMsg}}</div>
-        <button class="btn btn-primary add-btn" (click)="submit()">Add item</button>
+        <div class="btns-div">
+            <button class="btn btn-primary btn-green back" (click)="back()">Back</button>
+            <button class="btn btn-primary btn-green add-btn" (click)="submit()">Add item</button>
+        </div>
     </form>
 
 </div>

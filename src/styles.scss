@@ -120,13 +120,33 @@ input[type="number"].form-control{
     margin-top: 8px;
 }
 
+//
+
+.dialog-background{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.329);
+    min-width: 100vw;
+    min-height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+
+textarea{
+    border: 1px solid #CED4DA;
+}
 //spinner
 .loader {
     min-width: 48px;
     min-height: 48px;
     border-radius: 50%;
     position: relative;
-    animation: rotate 1s linear infinite
+    animation: rotate 1s linear infinite;
+    display: block;
+    margin: auto;
   }
   .loader::before {
     content: "";

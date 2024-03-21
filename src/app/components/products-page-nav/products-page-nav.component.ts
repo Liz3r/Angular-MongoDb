@@ -26,7 +26,7 @@ export class ProductsPageNavComponent implements OnInit, OnChanges{
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("Changes - max pages: " + this.maxPages + " current page: " + this.curentPage);
+    //console.log("Changes - max pages: " + this.maxPages + " current page: " + this.curentPage);
     this.pages = Array(this.maxPages).fill(0).map((n,i) => i);
   }
 

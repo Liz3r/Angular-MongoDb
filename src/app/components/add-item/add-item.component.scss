@@ -1,8 +1,4 @@
 .add-item-container{
-    display: block;
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
 
     padding: 30px;
 
@@ -12,28 +8,21 @@
     border: 1px solid black;
     border-radius: 10px;
     box-shadow: 2px 2px 5px black; 
+    background-color: white;
 }
 
 .hidden{
     display: none;
 }
 
-.btn-primary{
-    background-color: rgb(60, 214, 80);
-    border-color: rgb(60, 214, 80);
-}
-.btn-primary:active{
-    background-color: rgb(49, 168, 109);
-    border-color: rgb(49, 168, 109);
-}
-
-.add-btn{
+.btns-div{
     display: block;
-    width: 150px;
+    width: fit-content;
     margin-left: auto;
     margin-right: auto;
     margin-top: 30px;
 }
+
 
 .err-div{
     display: block;
@@ -120,6 +109,7 @@ textarea{
 .state-div{
     display: flex;
     flex-wrap: wrap;
+    width: fit-content;
 }
 
 .price-div, .state-div{
@@ -128,6 +118,7 @@ textarea{
     width: fit-content;
     gap: 7px;
 
+    flex-wrap: wrap;
     
     min-width: 150px;
     width: 90%;

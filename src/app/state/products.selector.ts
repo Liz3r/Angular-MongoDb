@@ -25,6 +25,10 @@ export const selectItemsPerPage = createSelector(
     (prodState) => prodState.itemsPerPage
 );
 
+export const selectIsLoadingProducts = createSelector(
+    selectProdFeature,
+    (prodState) => prodState.isLoadingProducts
+)
 
 export const selectProducts = createSelector(
     selectProdFeature,

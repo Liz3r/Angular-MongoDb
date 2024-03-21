@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, filter } from 'rxjs';
-import { Product } from 'src/app/models/product';
+import { Observable, Subscription, combineLatest, filter, map, of, withLatestFrom, zip } from 'rxjs';
 import { AppState } from 'src/app/state/app-state';
+import { selectIsLoading } from 'src/app/state/auth.selector';
 import { pageSelection } from 'src/app/state/products.actions';
-import { selectCurrentPage, selectMaxPage, selectProducts } from 'src/app/state/products.selector';
+import { selectCurrentPage, selectIsLoadingProducts, selectMaxPage, selectProducts } from 'src/app/state/products.selector';
 
 @Component({
   selector: 'app-show-products',
@@ -16,6 +16,7 @@ export class ShowProductsComponent implements OnInit{
   products$!: Observable<any>;
   maxPages$!: Observable<number>;
   currentPage$!: Observable<number>;
+  isLoading$!: Observable<boolean>;
 
 
 
@@ -23,6 +24,8 @@ export class ShowProductsComponent implements OnInit{
     private store: Store<AppState>
   ){}
   ngOnInit(): void {
+    this.isLoading$ = this.store.select(selectIsLoadingProducts);
+    
     this.products$ = this.store.select(selectProducts);
     this.maxPages$ = this.store.select(selectMaxPage).pipe(filter((val) => val != null));
     this.currentPage$ = this.store.select(selectCurrentPage).pipe(filter((val) => val != null));

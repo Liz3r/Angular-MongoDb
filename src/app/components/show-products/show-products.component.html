@@ -1,8 +1,9 @@
 
-<div class="show-products-container">
+<div *ngIf="!(isLoading$ | async)" class="show-products-container">
     <app-products-page-nav [maxPages]="maxPages$ | async" [curentPage]="currentPage$ | async" (newPageSelection)="navigatePages($event)"></app-products-page-nav>
     <div *ngFor="let product of products$ | async" class="items-div">
         <app-product [product]="product" [prev]="'home'"></app-product>
     </div>
     <app-products-page-nav [maxPages]="maxPages$ | async" [curentPage]="currentPage$ | async" (newPageSelection)="navigatePages($event)"></app-products-page-nav>
 </div>
+<div *ngIf="(isLoading$ | async)" class="loader"></div>
